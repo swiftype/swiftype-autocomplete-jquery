@@ -353,7 +353,7 @@
   $.fn.swiftype.defaults = {
     activeItemClass: 'active',
     attachTo: undefined,
-		dataUrl: 'http://localhost:3000/search/suggest.json',
+		dataUrl: 'http://api.swiftype.com/search/suggest.json',
     noResultsClass: 'noResults',
     noResultsMessage: undefined,
     onComplete: defaultOnComplete,
