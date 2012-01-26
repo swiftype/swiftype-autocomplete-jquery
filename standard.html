@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
-    <head>
+    <head>        
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
         <script type="text/javascript" src="jquery.swiftype.autocomplete.js"></script>
         <link type="text/css" rel="stylesheet" href="autocomplete.css" media="all" />
         <script type="text/javascript">
         $(function() {
-          $('#st-search-input').swiftype({ engineKey: "C2kEWnD3R3p9b8gSvxvE" });
+          $('#st-search-input').swiftype({ 
+            endpoint: 'http://api.swiftype.com/search/suggest.json',
+            engineKey: "LGsQSwkiHXhWHqo6UHCB" 
+          });
         });
         </script>
     </head>
@@ -17,5 +20,3 @@
         </form>
     </body>
 </html>
-
-

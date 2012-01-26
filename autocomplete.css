@@ -27,6 +27,7 @@ ul.st-autocomplete li {
     cursor: pointer;
     padding: 10px 8px;
     font-size: 13px;
+		overflow: hidden;
 }
 
 ul.st-autocomplete li:first-child {
@@ -46,6 +47,11 @@ ul.st-autocomplete li p {
 ul.st-autocomplete li p.title {
     color: #666;
     font-weight: bold;
+}
+
+ul.st-autocomplete li p.subtitle {
+    color: #666;
+		font-size: 9px;
 }
 
 ul.st-autocomplete li p.title em {

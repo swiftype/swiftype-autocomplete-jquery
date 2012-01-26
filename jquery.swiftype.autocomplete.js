@@ -80,7 +80,7 @@
           if (($active.length !== 0) && ($list.is(':visible'))) {
             event.preventDefault();
             var prefix = $this.val();
-            config.onComplete($active.data('swiftype-dataItem'), prefix);
+            config.onComplete($active.data('swiftype-item'), prefix);
           } else if ($this.currentRequest) {
             $this.submitting();
           }
@@ -159,11 +159,11 @@
 
   var callRemote = function ($this, term) {
     $this.abortCurrent();
-    var params = $.extend({}, {q: term, key: $this.data('swiftype-config').engineKey});
+    var params = $.extend({}, {q: term, key: $this.data('swiftype-config').engineKey, fetchFields: $this.data('swiftype-config').fetchFields });
     $this.currentRequest = $.ajax({
       type: 'GET',
       dataType: 'jsonp',
-      url: $this.data('swiftype-config').dataUrl,
+      url: $this.data('swiftype-config').endpoint,
       data: params
     }).success(function(data) {
       var norm = normalize(term);
@@ -203,7 +203,7 @@
         $this.data('swiftype-list').empty().hide();
         return;
       }
-      if (typeof $this.data('swiftype-config').dataUrl !== 'undefined') {
+      if (typeof $this.data('swiftype-config').endpoint !== 'undefined') {
         getResults($this, term);
       }
     };
@@ -216,9 +216,9 @@
       data = data.slice(0, config.resultLimit);
 
       $.map(data, function(result) {
-        $('<li>' + config.renderFunction(result, config) + '</li>').data('swiftype-dataItem', result).appendTo($list).click(function () {
+        $('<li>' + config.renderFunction(result, config) + '</li>').data('swiftype-item', result).appendTo($list).click(function () {
           var $listItem = $(this);
-          config.onComplete($listItem.data('swiftype-dataItem'));
+          config.onComplete($listItem.data('swiftype-item'));
         }).mouseover(function () {
           $(this).addClass(config.activeItemClass).siblings().removeClass(config.activeItemClass);
         });
@@ -234,21 +234,13 @@
       }
     };
 
-  var defaultRenderFunction = function(dataItem, config) {
-    var out = '<p class="title">' + dataItem['title'] + '</p>';
-    if (dataItem.sections) {
-      var sections = '<span class="section">&lfloor; ' + dataItem.sections + '</span>';
-      out = out.concat('<p class="sections">' + sections + '</p>')
-    }
-    return out;
-  };
-  var defaultOnComplete = function(dataItem, prefix) {
-    window.location = dataItem['url'];
+  var defaultRenderFunction = function(item, config) {
+    return '<p class="title">' + item['title'] + '</p>';
   };
 
-  var defaultSortFunction = function (a, b, term) {
-      return b['score'] - a['score'];
-    };
+  var defaultOnComplete = function(item, prefix) {
+    window.location = item['url'];
+  };
 
 	// simple client-side LRU Cache, based on https://github.com/rsms/js-lru
 
@@ -353,13 +345,12 @@
   $.fn.swiftype.defaults = {
     activeItemClass: 'active',
     attachTo: undefined,
-		dataUrl: 'http://api.swiftype.com/search/suggest.json',
+		fetchFields: undefined,
     noResultsClass: 'noResults',
     noResultsMessage: undefined,
     onComplete: defaultOnComplete,
     renderFunction: defaultRenderFunction,
     resultLimit: 10,
-    sortFunction: defaultSortFunction,
     suggestionListClass: 'st-autocomplete',
     typingDelay: 80,
   };
