@@ -25,7 +25,7 @@ All together it should look something like this:
 	<link type="text/css" rel="stylesheet" href="autocomplete.css" media="all" />
 
 
-Basic
+Basic Usage
 -----
 
 Simply apply the swiftype method to an existing search input field on your webpage. For example, add it a search input field with id `st-search-input` as follows:
@@ -54,12 +54,12 @@ Customization
 -------------
 
 This plugin is written to be flexible based on your specific use-case. 
-For example you might want to retrieve more data for each autocomplete result and customize
+For example you might want to retrieve more data for each element in the dropdown and customize
 the way it is displayed to the user. 
 
 #### Fetching additional data
 
-To specify the additional fields you would like returned from the API, set the `fetchFields` attribute in the options dictionary to a comma-delimited list of the fields you want. For example, to return `subtitle` and `url`:
+To specify the additional fields you would like returned from the API, set the `fetchFields` attribute in the options dictionary to a comma-delimited list of the fields you want. For example, if you have indexed a `subtitle` and `url` for each document in your index, you can ask to have them returned as follows:
 
 	$('#st-search-input').swiftype({ 
 		endpoint: 'http://api.swiftype.com/search/suggest.json',
@@ -75,13 +75,13 @@ Now the JSON response from the Swiftype API will include those fields for each e
 
 Now that you have more data for each autocomplete item, you'll want to customize the item rendering function to make use of it.
 
-To do this, you'll want to write a custom rendering function. The default rendering function is shown below:
+The default rendering function is shown below:
 
 	var defaultRenderFunction = function(item, config) {
 		return '<p class="title">' + item['title'] + '</p>';
 	};
 
-You could customize this to make use of the `url` field as follows:
+The additional fields are available as keys in the item dictionary. You could customize this to make use of the `url` field as follows:
 
 	var customRenderFunction = function(item, config) {
 		var out = '<p class="title">' + item['title'] + '</p>';
@@ -94,7 +94,24 @@ Now set the `renderFunction` attribute in the options dictionary to your `custom
 		renderFunction: customRenderFunction,
 		fetchFields: 'subtitle,url',
 		endpoint: 'http://api.swiftype.com/search/suggest.json',
-		engineKey: "LGsQSwkiHXhWHqo6UHCB" 
+		engineKey: 'LGsQSwkiHXhWHqo6UHCB' 
 	});
 
-Matt Riley and Quin Hoxie of [Swiftype](http://www.swiftype.com)
+#### Specifying additional query parameters
+The Swiftype query API is very powerful, so you may want to add a few search parameters to the query in addition to the prefix the user has typed.
+
+Specify additional parameters by setting `extraSearchParams`:
+
+	$('#st-search-input').swiftype({ 
+		renderFunction: customRenderFunction,
+		fetchFields: 'subtitle,url',
+		endpoint: 'http://api.swiftype.com/search/suggest.json',
+		engineKey: 'LGsQSwkiHXhWHqo6UHCB',
+		extraSearchParams: 'published:true and category:sports'
+	});
+
+Questions?
+----------
+Get in touch! We would be happy to help you get up and running. 
+
+[Quin](mailto:quin@swiftype.com) and [Matt](mailto:matt@swiftype.com) from [Swiftype](http://www.swiftype.com)
