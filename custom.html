@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
-        <script type="text/javascript" src="jquery.swiftype.autocomplete.js"></script>
-        <link type="text/css" rel="stylesheet" href="autocomplete.css" media="all" />
-        <script type="text/javascript">
+        <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js'></script>
+        <script type='text/javascript' src='jquery.swiftype.autocomplete.js'></script>
+        <link type='text/css' rel='stylesheet' href='autocomplete.css' media='all' />
+        <script type='text/javascript'>
         $(function() {
           
           var customRenderFunction = function(item, config) {
             var out = '<p class="title">' + item['title'] + '</p>';
-            out = out.concat('<p class="subtitle">' + item['url'] + '</p>');
-            return out;
+            out = out.concat('<p class="author">' + item['author'] + '</p>');
+            return out.concat('<p class="price">' + item['price'] + '</p>');
           };
         	
           $('#st-search-input').swiftype({ 
+            searchEngineName: 'bookstore',
             renderFunction: customRenderFunction,
-            fetchFields: 'matt,riley',
-            endpoint: 'http://api.swiftype.com/search/suggest.json',
-            engineKey: "LGsQSwkiHXhWHqo6UHCB" 
+            fetchFields: 'title,author,price',
+            extraSearchParams: { 'in_stock': true, 'on_sale': false }
           });
         });
         </script>
@@ -25,7 +25,7 @@
     <body>
         <form>
           <h1>Example Swiftype Autocomplete installation</h1>
-          Search your site: <input type="text" id="st-search-input" class="st-search-input" />
+          Search your site: <input type='text' id='st-search-input' class='st-search-input' />
         </form>
     </body>
 </html>

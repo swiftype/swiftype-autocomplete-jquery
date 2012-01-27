@@ -159,11 +159,12 @@
 
   var callRemote = function ($this, term) {
     $this.abortCurrent();
-    var params = $.extend({}, {q: term, key: $this.data('swiftype-config').engineKey, fetchFields: $this.data('swiftype-config').fetchFields });
+    var params = $.extend({}, {q: term, key: $this.data('swiftype-config').engineKey, fields: $this.data('swiftype-config').fetchFields, extras: $this.data('swiftype-config').extraSearchParams });
+		var endpoint = 'http://api.swiftype.com/api/v1/engines/' + $this.data('swiftype-config').searchEngineName + '/suggest.json';
     $this.currentRequest = $.ajax({
       type: 'GET',
       dataType: 'jsonp',
-      url: $this.data('swiftype-config').endpoint,
+      url: endpoint,
       data: params
     }).success(function(data) {
       var norm = normalize(term);
@@ -203,7 +204,7 @@
         $this.data('swiftype-list').empty().hide();
         return;
       }
-      if (typeof $this.data('swiftype-config').endpoint !== 'undefined') {
+      if (typeof $this.data('swiftype-config').searchEngineName !== 'undefined') {
         getResults($this, term);
       }
     };
@@ -345,12 +346,14 @@
   $.fn.swiftype.defaults = {
     activeItemClass: 'active',
     attachTo: undefined,
+		extraSearchParams: undefined,
 		fetchFields: undefined,
     noResultsClass: 'noResults',
     noResultsMessage: undefined,
     onComplete: defaultOnComplete,
     renderFunction: defaultRenderFunction,
     resultLimit: 10,
+		searchEngineName: undefined,
     suggestionListClass: 'st-autocomplete',
     typingDelay: 80,
   };

@@ -16,11 +16,11 @@ Include the following in the header of your webpage:
 
 * the latest version of jQuery
 * the Swiftype jQuery plugin
-* the Swiftype autocomplete styles if you want it to look nice (optional)
+* (optional) the Swiftype autocomplete styles if you want it to look nice
 
 All together it should look something like this:
 
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 	<script type="text/javascript" src="jquery.swiftype.autocomplete.js"></script>
 	<link type="text/css" rel="stylesheet" href="autocomplete.css" media="all" />
 
@@ -28,48 +28,35 @@ All together it should look something like this:
 Basic Usage
 -----
 
-Simply apply the swiftype method to an existing search input field on your webpage. For example, add it a search input field with id `st-search-input` as follows:
+Simply apply the swiftype method to an existing search input field on your webpage. For example, add it to a search input field with id `st-search-input` as follows:
 
 	$('#st-search-input').swiftype({ 
-	  endpoint: 'http://api.swiftype.com/search/suggest.json',
-	  engineKey: 'LGsQSwkiHXhWHqo6UHCB'
+	  searchEngineName: 'bookstore'
 	});
 
 Be sure to change the `engineKey` attribute shown above to match the one assigned to your Swiftype search engine.
-
-All together it should look something like this:
-
-	<input type="text" id="st-search-input" class="st-search-input" />
-    <script type="text/javascript">
-    $(function() {
-      $('#st-search-input').swiftype({ 
-        endpoint: 'http://api.swiftype.com/search/suggest.json',
-        engineKey: 'LGsQSwkiHXhWHqo6UHCB' 
-      });
-    });
-    </script>
 
 
 Customization
 -------------
 
 This plugin is written to be flexible based on your specific use-case. 
-For example you might want to retrieve more data for each element in the dropdown and customize
-the way it is displayed to the user. 
+For example you might want to retrieve more data for each element in the dropdown, customize
+the way data is display to the user, or restrict the autocomplete query to certain elements of your search engine. 
+Let's go through an example that does all 3.
 
 #### Fetching additional data
 
 To specify the additional fields you would like returned from the API, set the `fetchFields` attribute in the options dictionary to a comma-delimited list of the fields you want. For example, if you have indexed a `subtitle` and `url` for each document in your index, you can ask to have them returned as follows:
 
 	$('#st-search-input').swiftype({ 
-		endpoint: 'http://api.swiftype.com/search/suggest.json',
-		engineKey: 'LGsQSwkiHXhWHqo6UHCB',
-		fetchFields: 'subtitle,url'
+		fetchFields: 'title,author,price',
+		searchEngineName: 'bookstore'
 	});
 
 Now the JSON response from the Swiftype API will include those fields for each element returned:
 
-	{ example json response }
+	[{ "author": "sefan buttcher", "title": "information retrieval", "price" : "39.99" }]
 
 #### Customizing the display
 
@@ -85,16 +72,16 @@ The additional fields are available as keys in the item dictionary. You could cu
 
 	var customRenderFunction = function(item, config) {
 		var out = '<p class="title">' + item['title'] + '</p>';
-		return out.concat('<p class="url">' + item['url'] + '</p>');
+		out = out.concat('<p class="author">' + item['author'] + '</p>')
+		return out.concat('<p class="price">$' + item['price'] + '</p>');
 	};
 
 Now set the `renderFunction` attribute in the options dictionary to your `customRenderFunction`:
 
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
-		fetchFields: 'subtitle,url',
-		endpoint: 'http://api.swiftype.com/search/suggest.json',
-		engineKey: 'LGsQSwkiHXhWHqo6UHCB' 
+		fetchFields: 'title,author,price',
+		searchEngineName: 'bookstore'
 	});
 
 #### Specifying additional query parameters
@@ -104,10 +91,9 @@ Specify additional parameters by setting `extraSearchParams`:
 
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
-		fetchFields: 'subtitle,url',
-		endpoint: 'http://api.swiftype.com/search/suggest.json',
-		engineKey: 'LGsQSwkiHXhWHqo6UHCB',
-		extraSearchParams: 'published:true and category:sports'
+		fetchFields: 'title,author,price',
+		searchEngineName: 'bookstore'
+		extraSearchParams: 'in_stock:true and on_sale:false'
 	});
 
 Questions?
