@@ -31,7 +31,7 @@ Basic Usage
 Simply apply the swiftype method to an existing search input field on your webpage. For example, add it to a search input field with id `st-search-input` as follows:
 
 	$('#st-search-input').swiftype({ 
-	  searchEngineName: 'bookstore'
+	  engineKey: 'C2kEWnD3R3p9b8gSvxvE'
 	});
 
 Be sure to change the `engineKey` attribute shown above to match the one assigned to your Swiftype search engine.
@@ -51,7 +51,7 @@ To specify the additional fields you would like returned from the API, set the `
 
 	$('#st-search-input').swiftype({ 
 		fetchFields: 'title,author,price',
-		searchEngineName: 'bookstore'
+		engineKey: 'C2kEWnD3R3p9b8gSvxvE'
 	});
 
 Now the JSON response from the Swiftype API will include those fields for each element returned:
@@ -81,7 +81,7 @@ Now set the `renderFunction` attribute in the options dictionary to your `custom
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
 		fetchFields: 'title,author,price',
-		searchEngineName: 'bookstore'
+		engineKey: 'C2kEWnD3R3p9b8gSvxvE'
 	});
 
 #### Specifying additional query parameters
@@ -92,8 +92,8 @@ Specify additional parameters by setting `extraSearchParams`:
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
 		fetchFields: 'title,author,price',
-		searchEngineName: 'bookstore',
-		extraSearchParams: { 'in_stock: true, 'on_sale': false }
+		extraSearchParams: { 'in_stock: true, 'on_sale': false },
+		engineKey: 'C2kEWnD3R3p9b8gSvxvE'
 	});
 
 Questions?
