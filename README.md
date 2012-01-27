@@ -92,7 +92,7 @@ Specify additional parameters by setting `extraSearchParams`:
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
 		fetchFields: 'title,author,price',
-		searchEngineName: 'bookstore'
+		searchEngineName: 'bookstore',
 		extraSearchParams: { 'in_stock: true, 'on_sale': false }
 	});
 
