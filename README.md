@@ -1,11 +1,11 @@
 Swiftype jQuery Autocomplete Plugin
 =========
 
-The official [Swiftype](http://www.swiftype.com) jQuery plugin for adding autocomplete functionality to a search input field, backed by data from the Swiftype Search API. Learn more about Swiftype by visiting [swiftype.com](http://www.swiftype.com) and creating an account.
+The official [Swiftype](http://swiftype.com) jQuery plugin for adding autocomplete functionality to a search input field, backed by data from the Swiftype Search API. Learn more about Swiftype by visiting [swiftype.com](http://swiftype.com) and creating an account.
 
 Prerequisites
 ------------
-1. A Swiftype account. Sign up at [swiftype.com](http://www.swiftype.com).
+1. A Swiftype account. Sign up at [swiftype.com](http://swiftype.com).
 2. A Swiftype search engine with some data in it.
 
 
@@ -30,7 +30,7 @@ Basic Usage
 
 Simply apply the swiftype method to an existing search input field on your webpage. For example, add it to a search input field with id `st-search-input` as follows:
 
-	$('#st-search-input').swiftype({ 
+	$('#st-search-input').swiftype({
 	  engineKey: 'C2kEWnD3R3p9b8gSvxvE'
 	});
 
@@ -40,16 +40,16 @@ Be sure to change the `engineKey` attribute shown above to match the one assigne
 Customization
 -------------
 
-This plugin is written to be flexible based on your specific use-case. 
+This plugin is written to be flexible based on your specific use-case.
 For example you might want to retrieve more data for each element in the dropdown, customize
-the way data is display to the user, or restrict the autocomplete query to certain elements of your search engine. 
+the way data is display to the user, or restrict the autocomplete query to certain elements of your search engine.
 Let's go through an example that does all 3.
 
 #### Fetching additional data
 
 To specify the additional fields you would like returned from the API, set the `fetchFields` attribute in the options dictionary to a comma-delimited list of the fields you want. For example, if you have indexed a `title`, `author`, and `price` for each document in your index, you can ask to have them returned as follows:
 
-	$('#st-search-input').swiftype({ 
+	$('#st-search-input').swiftype({
 		fetchFields: 'title,author,price',
 		engineKey: 'C2kEWnD3R3p9b8gSvxvE'
 	});
@@ -78,7 +78,7 @@ The additional fields are available as keys in the item dictionary. You could cu
 
 Now set the `renderFunction` attribute in the options dictionary to your `customRenderFunction`:
 
-	$('#st-search-input').swiftype({ 
+	$('#st-search-input').swiftype({
 		renderFunction: customRenderFunction,
 		fetchFields: 'title,author,price',
 		engineKey: 'C2kEWnD3R3p9b8gSvxvE'
@@ -89,7 +89,7 @@ The Swiftype query API is very powerful, so you may want to add a few search par
 
 Specify additional parameters by setting `extraSearchParams`:
 
-	$('#st-search-input').swiftype({ 
+	$('#st-search-input').swiftype({
 		renderFunction: customRenderFunction,
 		fetchFields: 'title,author,price',
 		extraSearchParams: { 'in_stock: true, 'on_sale': false },
@@ -98,6 +98,6 @@ Specify additional parameters by setting `extraSearchParams`:
 
 Questions?
 ----------
-Get in touch! We would be happy to help you get up and running. 
+Get in touch! We would be happy to help you get up and running.
 
-[Quin](mailto:quin@swiftype.com) and [Matt](mailto:matt@swiftype.com) from [Swiftype](http://www.swiftype.com)
+[Quin](mailto:quin@swiftype.com) and [Matt](mailto:matt@swiftype.com) from [Swiftype](http://swiftype.com)
