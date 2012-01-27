@@ -47,7 +47,7 @@ Let's go through an example that does all 3.
 
 #### Fetching additional data
 
-To specify the additional fields you would like returned from the API, set the `fetchFields` attribute in the options dictionary to a comma-delimited list of the fields you want. For example, if you have indexed a `subtitle` and `url` for each document in your index, you can ask to have them returned as follows:
+To specify the additional fields you would like returned from the API, set the `fetchFields` attribute in the options dictionary to a comma-delimited list of the fields you want. For example, if you have indexed a `title`, `author`, and `price` for each document in your index, you can ask to have them returned as follows:
 
 	$('#st-search-input').swiftype({ 
 		fetchFields: 'title,author,price',
@@ -93,7 +93,7 @@ Specify additional parameters by setting `extraSearchParams`:
 		renderFunction: customRenderFunction,
 		fetchFields: 'title,author,price',
 		searchEngineName: 'bookstore'
-		extraSearchParams: 'in_stock:true and on_sale:false'
+		extraSearchParams: { 'in_stock: true, 'on_sale': false }
 	});
 
 Questions?
