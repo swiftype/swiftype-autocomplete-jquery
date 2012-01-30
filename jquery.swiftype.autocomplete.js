@@ -159,8 +159,28 @@
 
   var callRemote = function ($this, term) {
     $this.abortCurrent();
-    var params = $.extend({}, { q: term, engine_key: $this.data('swiftype-config').engineKey, fields: $this.data('swiftype-config').fetchFields, extras: $this.data('swiftype-config').extraSearchParams });
-		var endpoint = 'http://localhost:3000/api/v1/public/engines/suggest.json';
+
+		var options = {},
+			config = $this.data('swiftype-config'),
+			anyConfig = false;
+			
+		if(config.searchFields !== undefined) {
+			options['suggest_fields'] = config.searchFields;
+			anyConfig = true;
+		}
+		if(config.fetchFields !== undefined) {
+			options['fetch_fields'] = config.fetchFields;
+			anyConfig = true;
+		}
+		if(config.conditionals !== undefined) {
+			options['conditionals'] = config.conditionals;
+			anyConfig = true;
+		}
+		
+    var params = $.extend({}, { engine_key: config.engineKey, q: term });
+		if(anyConfig) {	params['options'] = options; }
+		
+		var endpoint = 'http://api.swiftype.com/api/v1/public/engines/suggest.json';
     $this.currentRequest = $.ajax({
       type: 'GET',
       dataType: 'jsonp',
@@ -346,8 +366,9 @@
   $.fn.swiftype.defaults = {
     activeItemClass: 'active',
     attachTo: undefined,
+		conditionals: undefined,
 		engineKey: undefined,
-		extraSearchParams: undefined,
+		searchFields: undefined,
 		fetchFields: undefined,
     noResultsClass: 'noResults',
     noResultsMessage: undefined,
