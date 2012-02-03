@@ -165,7 +165,7 @@
     	anyConfig = false;
 	
     if(config.searchFields !== undefined) {
-    	options['suggest_fields'] = config.searchFields;
+    	options['search_fields'] = config.searchFields;
     	anyConfig = true;
     }
     if(config.fetchFields !== undefined) {
