@@ -160,22 +160,22 @@
   var callRemote = function ($this, term) {
     $this.abortCurrent();
 
-		var options = {},
-			config = $this.data('swiftype-config'),
-			anyConfig = false;
-			
-		if(config.searchFields !== undefined) {
-			options['suggest_fields'] = config.searchFields;
-			anyConfig = true;
-		}
-		if(config.fetchFields !== undefined) {
-			options['fetch_fields'] = config.fetchFields;
-			anyConfig = true;
-		}
-		if(config.conditionals !== undefined) {
-			options['conditionals'] = config.conditionals;
-			anyConfig = true;
-		}
+    var options = {},
+    	config = $this.data('swiftype-config'),
+    	anyConfig = false;
+	
+    if(config.searchFields !== undefined) {
+    	options['suggest_fields'] = config.searchFields;
+    	anyConfig = true;
+    }
+    if(config.fetchFields !== undefined) {
+    	options['fetch_fields'] = config.fetchFields;
+    	anyConfig = true;
+    }
+    if(config.filters !== undefined) {
+    	options['filters'] = config.filters;
+    	anyConfig = true;
+    }
 		
     var params = $.extend({}, { engine_key: config.engineKey, q: term });
 		if(anyConfig) {	params['options'] = options; }
@@ -366,7 +366,7 @@
   $.fn.swiftype.defaults = {
     activeItemClass: 'active',
     attachTo: undefined,
-		conditionals: undefined,
+		filters: undefined,
 		engineKey: undefined,
 		searchFields: undefined,
 		fetchFields: undefined,

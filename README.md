@@ -100,13 +100,13 @@ Similarly to the `fetchFields` option, `searchFields` accepts a comma-delimited 
 
 #### Specifying additional query conditions
 
-Now let's say you only want your autocomplete to display books that are of the **fiction** `genre`. In order to restrict search results, you can pass additional query conditions to the search API by specifying them in a dictionary, and assigning that to the `conditionals` field:
+Now let's say you only want your autocomplete to display books that are of the **fiction** `genre`. In order to restrict search results, you can pass additional query conditions to the search API by specifying them in a dictionary, and assigning that to the `filters` field:
 
 
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
 		fetchFields: 'title,author,price',
-		conditionals: { 'genre: 'fiction' },
+		filters: { 'genre: 'fiction' },
 		searchFields: 'title',
 		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
 	});
