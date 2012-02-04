@@ -160,26 +160,22 @@
   var callRemote = function ($this, term) {
     $this.abortCurrent();
 
-    var options = {},
-    	config = $this.data('swiftype-config'),
-    	anyConfig = false;
+    var params = {},
+      config = $this.data('swiftype-config');
+
+    params['q'] = term;
+    params['engine_key'] = config.engineKey;
 	
     if(config.searchFields !== undefined) {
-    	options['search_fields'] = config.searchFields;
-    	anyConfig = true;
+      params['search_fields'] = config.searchFields;
     }
     if(config.fetchFields !== undefined) {
-    	options['fetch_fields'] = config.fetchFields;
-    	anyConfig = true;
+      params['fetch_fields'] = config.fetchFields;
     }
     if(config.filters !== undefined) {
-    	options['filters'] = config.filters;
-    	anyConfig = true;
+      params['filters'] = config.filters;
     }
-		
-    var params = $.extend({}, { engine_key: config.engineKey, q: term });
-		if(anyConfig) {	params['options'] = options; }
-		
+
 		var endpoint = 'http://api.swiftype.com/api/v1/public/engines/suggest.json';
     $this.currentRequest = $.ajax({
       type: 'GET',

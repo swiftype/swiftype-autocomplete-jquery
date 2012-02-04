@@ -80,7 +80,7 @@ Now simply set the `renderFunction` attribute in the options dictionary to your 
 
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
-		fetchFields: 'title,genre,published_on',
+		fetchFields: 'title, genre, published_on',
 		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
 	});
 
@@ -91,7 +91,7 @@ By default, the Swiftype autocomplete library will match the string the user is 
 
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
-		fetchFields: 'title,genre,published_on',
+		fetchFields: 'title, genre, published_on',
 		searchFields: 'title',
 		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
 	});
@@ -100,13 +100,14 @@ Similarly to the `fetchFields` option, `searchFields` accepts a comma-delimited 
 
 #### Specifying additional query conditions
 
-Now let's say you only want your autocomplete to display books that are of the **fiction** `genre`. In order to restrict search results, you can pass additional query conditions to the search API by specifying them in a dictionary, and assigning that to the `filters` field:
+Now let's say you only want your autocomplete to display books that are of the **fiction** `genre` and are **in_stock**. In order to restrict search results, you can pass additional query conditions to the search API by specifying them as a comma-delimited string in the `filters` field.
+Multiple clauses in the filters field are combined with AND logic:
 
 
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
-		fetchFields: 'title,author,price',
-		filters: { 'genre: 'fiction' },
+		fetchFields: 'title, author, price',
+		filters: 'genre:fiction, in_stock:true',
 		searchFields: 'title',
 		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
 	});
