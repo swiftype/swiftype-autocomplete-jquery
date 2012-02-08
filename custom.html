@@ -16,9 +16,9 @@
           $('#st-search-input').swiftype({ 
             engineKey: '7uoyoAnkJsKBFVESWVa8',
             renderFunction: customRenderFunction,
-            searchFields: 'title',
-            fetchFields: 'title, genre, published_on',
-            filters: 'genre:fiction, in_stock:true'
+            searchFields: ['title'],
+            fetchFields: ['title','genre','published_on'],
+            filters: {'genre': 'fiction', 'in_stock': true}
           });
         });
         </script>

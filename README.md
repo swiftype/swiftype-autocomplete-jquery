@@ -50,10 +50,10 @@ Let's go through an example that does all of this. For this example, let's assum
 
 #### Fetching only the fields you specify
 
-To specify the fields you would like returned from the API, set the `fetchFields` attribute in the options dictionary to a comma-delimited list of the fields you want. For example, if you have indexed `title`, `genre`, and `published_on` fields for each document, you can have them returned as follows:
+To specify the fields you would like returned from the API, set the `fetchFields` attribute in the options dictionary to an array of the fields you want. For example, if you have indexed `title`, `genre`, and `published_on` fields for each document, you can have them returned as follows:
 
 	$('#st-search-input').swiftype({ 
-		fetchFields: 'title,genre,published_on',
+		fetchFields: ['title','genre','published_on'],
 		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
 	});
 
@@ -80,7 +80,7 @@ Now simply set the `renderFunction` attribute in the options dictionary to your 
 
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
-		fetchFields: 'title, genre, published_on',
+		fetchFields: ['title','genre','published_on'],
 		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
 	});
 
@@ -91,24 +91,23 @@ By default, the Swiftype autocomplete library will match the string the user is 
 
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
-		fetchFields: 'title, genre, published_on',
-		searchFields: 'title',
+		fetchFields: ['title','genre','published_on'],
+		searchFields: ['title'],
 		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
 	});
 
-Similarly to the `fetchFields` option, `searchFields` accepts a comma-delimited list of fields on which you would like the user's query to match. 
+Similarly to the `fetchFields` option, `searchFields` accepts an array of fields on which you would like the user's query to match. 
 
 #### Specifying additional query conditions
 
-Now let's say you only want your autocomplete to display books that are of the **fiction** `genre` and are **in_stock**. In order to restrict search results, you can pass additional query conditions to the search API by specifying them as a comma-delimited string in the `filters` field.
-Multiple clauses in the filters field are combined with AND logic:
+Now let's say you only want your autocomplete to display books that are of the **fiction** `genre` and are **in_stock**. In order to restrict search results, you can pass additional query conditions to the search API by specifying them as a dictionary in the `filters` field. Multiple clauses in the filters field are combined with AND logic:
 
 
 	$('#st-search-input').swiftype({ 
 		renderFunction: customRenderFunction,
-		fetchFields: 'title, author, price',
-		filters: 'genre:fiction, in_stock:true',
-		searchFields: 'title',
+		fetchFields: ['title','genre','published_on'],
+		filters: {'genre': 'fiction', 'in_stock': true},
+		searchFields: ['title'],
 		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
 	});
 

@@ -175,6 +175,9 @@
     if(config.filters !== undefined) {
       params['filters'] = config.filters;
     }
+    if(config.documentTypes !== undefined) {
+      params['document_types'] = config.documentTypes;
+    }
 
 		var endpoint = 'http://api.swiftype.com/api/v1/public/engines/suggest.json';
     $this.currentRequest = $.ajax({
@@ -184,14 +187,14 @@
       data: params
     }).success(function(data) {
       var norm = normalize(term);
-      if (data.length > 0) {
-        $this.cache.put(norm, data);
+      if (data.record_count > 0) {
+        $this.cache.put(norm, data.records);
       } else {
         $this.addEmpty(norm);
         $this.data('swiftype-list').empty().hide();
         return;
       }
-      processData($this, data, term);
+      processData($this, data.records, term);
     });
   };
 
@@ -230,19 +233,23 @@
         config = $this.data('swiftype-config');
 
       $list.empty().hide();
-      data = data.slice(0, config.resultLimit);
-
-      $.map(data, function(result) {
-        $('<li>' + config.renderFunction(result, config) + '</li>').data('swiftype-item', result).appendTo($list).click(function () {
-          var $listItem = $(this);
-          config.onComplete($listItem.data('swiftype-item'));
-        }).mouseover(function () {
-          $(this).addClass(config.activeItemClass).siblings().removeClass(config.activeItemClass);
+      
+      var totalItems = 0;
+      
+      $.each(data, function(document_type, items) {
+        items = items.slice(0, config.resultLimit);
+        totalItems += items.length;
+        $.map(items, function(item) {
+          $('<li>' + config.renderFunction(item, document_type) + '</li>').data('swiftype-item', item).appendTo($list).click(function () {
+            var $listItem = $(this);
+            config.onComplete($listItem.data('swiftype-item'));
+          }).mouseover(function () {
+            $(this).addClass(config.activeItemClass).siblings().removeClass(config.activeItemClass);
+          });
         });
       });
 
-      if ((config.noResultsMessage !== undefined) && (data.length == 0)) $list.append($('<li class="' + config.noResultsClass + '">' + config.noResultsMessage + '</li>'));
-      if ((data.length > 0 && $this.focused()) || (config.noResultsMessage !== undefined)) {
+      if ((totalItems > 0 && $this.focused()) || (config.noResultsMessage !== undefined)) {
         if ($this.submitted) {
           $this.submitted = false;
         } else {
@@ -251,7 +258,7 @@
       }
     };
 
-  var defaultRenderFunction = function(item, config) {
+  var defaultRenderFunction = function(document_type, item) {
     return '<p class="title">' + item['title'] + '</p>';
   };
 
@@ -362,6 +369,7 @@
   $.fn.swiftype.defaults = {
     activeItemClass: 'active',
     attachTo: undefined,
+    documentTypes: undefined,
 		filters: undefined,
 		engineKey: undefined,
 		searchFields: undefined,
