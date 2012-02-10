@@ -6,15 +6,15 @@
         <link type='text/css' rel='stylesheet' href='autocomplete.css' media='all' />
         <script type='text/javascript'>
         $(function() {
-          
+
           var customRenderFunction = function(item, config) {
             var out = '<p class="title">' + item['title'] + '</p>';
             out = out.concat('<p class="url">' + item['genre'] + '</p>');
             return out;
           };
-        	
-          $('#st-search-input').swiftype({ 
-            engineKey: '7uoyoAnkJsKBFVESWVa8',
+
+          $('#st-search-input').swiftype({
+            engineKey: 'UuaPq4AQq23XzXzRrqq',
             renderFunction: customRenderFunction,
             searchFields: ['title'],
             fetchFields: ['title','genre','published_on'],

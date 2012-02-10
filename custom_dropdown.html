@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js'></script>
+        <script type='text/javascript' src='jquery.swiftype.autocomplete.js'></script>
+        <link type='text/css' rel='stylesheet' href='autocomplete.css' media='all' />
+        <script type='text/javascript'>
+        $(function() {
+          var customResultRenderFunction = function(ctx, data) {
+            var withSections = [],
+              noSections = [];
+
+            $.each(data, function(docType, results) {
+              $.each(results, function(idx, result) {
+                if (result.hightlight && result.hightlight.sections) {
+                  withSections.push(result);
+                } else {
+                  noSections.push(result);
+                }
+              });
+            });
+
+            var withSectionsList = $('<ul class="with_sections"></ul>'),
+              noSectionsList = $('<ul class="no_sections"></ul>');
+
+            $.each(withSections, function(idx, item) {
+              ctx.registerResult($('<li class="result"><p>' + item['title'] + '</p></li>').appendTo(withSectionsList), item);
+            });
+            $.each(noSections, function(idx, item) {
+              ctx.registerResult($('<li class="result"><p>' + item['title'] + '</p></li>').appendTo(noSectionsList), item);
+            });
+            if (withSections.length > 0) {
+              withSectionsList.appendTo(ctx.list);
+            }
+            if (noSections.length > 0) {
+              noSectionsList.appendTo(ctx.list);
+            }
+          };
+
+          $('#st-search-input').swiftype({
+            engineKey: 'UuaPq4AQq23XzXzRrqq',
+            resultRenderFunction: customResultRenderFunction,
+            suggestionListType: 'div',
+            resultListSelector: '.result'
+          });
+        });
+        </script>
+    </head>
+    <body>
+        <form>
+          <h1>Example Swiftype Autocomplete installation</h1>
+          Search your site: <input type='text' id='st-search-input' class='st-search-input' />
+        </form>
+    </body>
+</html>

@@ -14,7 +14,7 @@
       $this.emptyQueries = [];
 
       $this.isEmpty = function(query) {
-				return $.inArray(normalize(query), this.emptyQueries) >= 0
+	   return $.inArray(normalize(query), this.emptyQueries) >= 0
       };
 
       $this.addEmpty = function(query) {
@@ -23,7 +23,7 @@
 
       var $attachEl = config.attachTo ? $(config.attachTo) : $this;
       var offset = $attachEl.offset();
-      var $list = $('<ul />').addClass(config.suggestionListClass).appendTo('body').hide().css({
+      var $list = $('<' + config.suggestionListType + ' />').addClass(config.suggestionListClass).appendTo('body').hide().css({
         'position': 'absolute',
         'z-index': 999,
         'width': $attachEl.outerWidth() - 2,
@@ -48,6 +48,28 @@
 
       $this.submitting = function() {
         $this.submitted = true;
+      };
+
+      $this.listResults = function() {
+        return $(config.resultListSelector, $list);
+      };
+
+      $this.registerResult = function($element, data) {
+        $element.data('swiftype-item', data);
+        $element.click(function () {
+          config.onComplete(data);
+        }).mouseover(function () {
+          $this.listResults().removeClass(config.activeItemClass);
+          $element.addClass(config.activeItemClass);
+        });
+      };
+
+      $this.getContext = function() {
+        return {
+          config: config,
+          list: $list,
+          registerResult: $this.registerResult
+        };
       };
 
       var typingDelayPointer;
@@ -165,7 +187,7 @@
 
     params['q'] = term;
     params['engine_key'] = config.engineKey;
-	
+
     if(config.searchFields !== undefined) {
       params['search_fields'] = config.searchFields;
     }
@@ -179,7 +201,7 @@
       params['document_types'] = config.documentTypes;
     }
 
-		var endpoint = 'http://api.swiftype.com/api/v1/public/engines/suggest.json';
+    var endpoint = 'http://api.swiftype.com/api/v1/public/engines/suggest.json';
     $this.currentRequest = $.ajax({
       type: 'GET',
       dataType: 'jsonp',
@@ -233,22 +255,9 @@
         config = $this.data('swiftype-config');
 
       $list.empty().hide();
-      
-      var totalItems = 0;
-      
-      $.each(data, function(document_type, items) {
-        items = items.slice(0, config.resultLimit);
-        totalItems += items.length;
-        $.map(items, function(item) {
-          $('<li>' + config.renderFunction(item, document_type) + '</li>').data('swiftype-item', item).appendTo($list).click(function () {
-            var $listItem = $(this);
-            config.onComplete($listItem.data('swiftype-item'));
-          }).mouseover(function () {
-            $(this).addClass(config.activeItemClass).siblings().removeClass(config.activeItemClass);
-          });
-        });
-      });
+      config.resultRenderFunction($this.getContext(), data);
 
+      var totalItems = $this.listResults().length;
       if ((totalItems > 0 && $this.focused()) || (config.noResultsMessage !== undefined)) {
         if ($this.submitted) {
           $this.submitted = false;
@@ -257,6 +266,17 @@
         }
       }
     };
+
+  var defaultResultRenderFunction = function(ctx, results) {
+    var $list = ctx.list,
+      config = ctx.config;
+
+    $.each(results, function(document_type, items) {
+      $.each(items, function(idx, item) {
+        ctx.registerResult($('<li>' + config.renderFunction(document_type, item) + '</li>').appendTo($list), item);
+      });
+    });
+  };
 
   var defaultRenderFunction = function(document_type, item) {
     return '<p class="title">' + item['title'] + '</p>';
@@ -377,10 +397,13 @@
     noResultsClass: 'noResults',
     noResultsMessage: undefined,
     onComplete: defaultOnComplete,
+    resultRenderFunction: defaultResultRenderFunction,
     renderFunction: defaultRenderFunction,
     resultLimit: 10,
+    suggestionListType: 'ul',
     suggestionListClass: 'st-autocomplete',
+    resultListSelector: 'li',
     typingDelay: 80,
   };
-	
+
 })(jQuery);
