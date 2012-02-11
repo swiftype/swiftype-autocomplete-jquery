@@ -403,7 +403,7 @@
     suggestionListType: 'ul',
     suggestionListClass: 'st-autocomplete',
     resultListSelector: 'li',
-    typingDelay: 80,
+    typingDelay: 80
   };
 
 })(jQuery);
