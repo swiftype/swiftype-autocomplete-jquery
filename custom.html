@@ -6,14 +6,14 @@
         <link type='text/css' rel='stylesheet' href='autocomplete.css' media='all' />
         <script type='text/javascript'>
         $(function() {
-          
+
           var customRenderFunction = function(item, config) {
             var out = '<p class="title">' + item['title'] + '</p>';
-            out = out.concat('<p class="url">' + item['name'] + '</p>');
+            out = out.concat('<p class="url">' + item['author'] + '</p>');
             return out;
           };
-        	
-          $('#st-search-input').swiftype({ 
+
+          $('#st-search-input').swiftype({
             engineKey: 'cZGa59zZiDxbcsZaFNAX',
             renderFunction: customRenderFunction,
             searchFields: {'books': ['title'], 'magazines': ['name']},
