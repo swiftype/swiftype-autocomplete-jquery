@@ -9,16 +9,16 @@
           
           var customRenderFunction = function(item, config) {
             var out = '<p class="title">' + item['title'] + '</p>';
-            out = out.concat('<p class="url">' + item['genre'] + '</p>');
+            out = out.concat('<p class="url">' + item['name'] + '</p>');
             return out;
           };
         	
           $('#st-search-input').swiftype({ 
-            engineKey: '7uoyoAnkJsKBFVESWVa8',
+            engineKey: 'fr49Gj3Zbwn9exWjev34',
             renderFunction: customRenderFunction,
-            searchFields: ['title'],
-            fetchFields: ['title','genre','published_on'],
-            filters: {'genre': 'fiction', 'in_stock': true}
+            searchFields: {'books': ['title'], 'magazines': ['name']},
+            fetchFields: {'books': ['title','author','price']},
+            filters: {'books': {'in_stock': true}}
           });
         });
         </script>
