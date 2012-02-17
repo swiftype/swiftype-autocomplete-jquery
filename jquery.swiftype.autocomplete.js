@@ -200,6 +200,9 @@
     if(config.documentTypes !== undefined) {
       params['document_types'] = config.documentTypes;
     }
+    if(config.functionalBoosts !== undefined) {
+      params['functional_boosts'] = config.functionalBoosts;
+    }
 
     var endpoint = 'http://api.swiftype.com/api/v1/public/engines/suggest.json';
     $this.currentRequest = $.ajax({
@@ -393,6 +396,7 @@
 		filters: undefined,
 		engineKey: undefined,
 		searchFields: undefined,
+		functionalBoosts: undefined,
 		fetchFields: undefined,
     noResultsClass: 'noResults',
     noResultsMessage: undefined,
