@@ -297,107 +297,107 @@
 	  this._keymap = {};
 	}
 
-	LRUCache.prototype.put = function (key, value) {
-	  var entry = {
-	    key: key,
-	    value: value
-	  };
-	  this._keymap[key] = entry;
-	  if (this.tail) {
-	    this.tail.newer = entry;
-	    entry.older = this.tail;
-	  } else {
-	    this.head = entry;
-	  }
-	  this.tail = entry;
-	  if (this.size === this.limit) {
-	    return this.shift();
-	  } else {
-	    this.size++;
-	  }
-	};
+  LRUCache.prototype.put = function (key, value) {
+    var entry = {
+      key: key,
+      value: value
+    };
+    this._keymap[key] = entry;
+    if (this.tail) {
+      this.tail.newer = entry;
+      entry.older = this.tail;
+    } else {
+      this.head = entry;
+    }
+    this.tail = entry;
+    if (this.size === this.limit) {
+      return this.shift();
+    } else {
+      this.size++;
+    }
+  };
 
-	LRUCache.prototype.shift = function () {
-	  var entry = this.head;
-	  if (entry) {
-	    if (this.head.newer) {
-	      this.head = this.head.newer;
-	      this.head.older = undefined;
-	    } else {
-	      this.head = undefined;
-	    }
-	    entry.newer = entry.older = undefined;
-	    delete this._keymap[entry.key];
-	  }
-	  return entry;
-	};
+  LRUCache.prototype.shift = function () {
+    var entry = this.head;
+    if (entry) {
+      if (this.head.newer) {
+        this.head = this.head.newer;
+        this.head.older = undefined;
+      } else {
+        this.head = undefined;
+      }
+      entry.newer = entry.older = undefined;
+      delete this._keymap[entry.key];
+    }
+    return entry;
+  };
 
-	LRUCache.prototype.get = function (key, returnEntry) {
-	  var entry = this._keymap[key];
-	  if (entry === undefined) return;
-	  if (entry === this.tail) {
-	    return entry.value;
-	  }
-	  if (entry.newer) {
-	    if (entry === this.head) this.head = entry.newer;
-	    entry.newer.older = entry.older;
-	  }
-	  if (entry.older) entry.older.newer = entry.newer;
-	  entry.newer = undefined;
-	  entry.older = this.tail;
-	  if (this.tail) this.tail.newer = entry;
-	  this.tail = entry;
-	  return returnEntry ? entry : entry.value;
-	};
+  LRUCache.prototype.get = function (key, returnEntry) {
+    var entry = this._keymap[key];
+    if (entry === undefined) return;
+    if (entry === this.tail) {
+      return entry.value;
+    }
+    if (entry.newer) {
+      if (entry === this.head) this.head = entry.newer;
+      entry.newer.older = entry.older;
+    }
+    if (entry.older) entry.older.newer = entry.newer;
+    entry.newer = undefined;
+    entry.older = this.tail;
+    if (this.tail) this.tail.newer = entry;
+    this.tail = entry;
+    return returnEntry ? entry : entry.value;
+  };
 
-	LRUCache.prototype.remove = function (key) {
-	  var entry = this._keymap[key];
-	  if (!entry) return;
-	  delete this._keymap[entry.key];
-	  if (entry.newer && entry.older) {
-	    entry.older.newer = entry.newer;
-	    entry.newer.older = entry.older;
-	  } else if (entry.newer) {
-	    entry.newer.older = undefined;
-	    this.head = entry.newer;
-	  } else if (entry.older) {
-	    entry.older.newer = undefined;
-	    this.tail = entry.older;
-	  } else {
-	    this.head = this.tail = undefined;
-	  }
+  LRUCache.prototype.remove = function (key) {
+    var entry = this._keymap[key];
+    if (!entry) return;
+    delete this._keymap[entry.key];
+    if (entry.newer && entry.older) {
+      entry.older.newer = entry.newer;
+      entry.newer.older = entry.older;
+    } else if (entry.newer) {
+      entry.newer.older = undefined;
+      this.head = entry.newer;
+    } else if (entry.older) {
+      entry.older.newer = undefined;
+      this.tail = entry.older;
+    } else {
+      this.head = this.tail = undefined;
+    }
 
-	  this.size--;
-	  return entry.value;
-	};
+    this.size--;
+    return entry.value;
+  };
 
-	LRUCache.prototype.clear = function () {
-	  this.head = this.tail = undefined;
-	  this.size = 0;
-	  this._keymap = {};
-	};
+  LRUCache.prototype.clear = function () {
+    this.head = this.tail = undefined;
+    this.size = 0;
+    this._keymap = {};
+  };
 
-	if (typeof Object.keys === 'function') {
-	  LRUCache.prototype.keys = function () {
-	    return Object.keys(this._keymap);
-	  };
-	} else {
-	  LRUCache.prototype.keys = function () {
-	    var keys = [];
-	    for (var k in this._keymap) keys.push(k);
-	    return keys;
-	  };
-	}
+  if (typeof Object.keys === 'function') {
+    LRUCache.prototype.keys = function () {
+      return Object.keys(this._keymap);
+    };
+  } else {
+    LRUCache.prototype.keys = function () {
+      var keys = [];
+      for (var k in this._keymap) keys.push(k);
+      return keys;
+    };
+  }
 
   $.fn.swiftype.defaults = {
     activeItemClass: 'active',
     attachTo: undefined,
     documentTypes: undefined,
-		filters: undefined,
-		engineKey: undefined,
-		searchFields: undefined,
-		functionalBoosts: undefined,
-		fetchFields: undefined,
+    filters: undefined,
+    engineKey: undefined,
+    searchFields: undefined,
+    functionalBoosts: undefined,
+    fetchFields: undefined,
     noResultsClass: 'noResults',
     noResultsMessage: undefined,
     onComplete: defaultOnComplete,
