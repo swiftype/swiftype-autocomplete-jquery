@@ -58,6 +58,10 @@
         return $(config.resultListSelector, $list);
       };
 
+      $this.activeResult = function() {
+        return $this.listResults().filter('.' + config.activeItemClass);
+      };
+
       $this.registerResult = function($element, data) {
         $element.data('swiftype-item', data);
         $element.click(function () {
@@ -100,7 +104,7 @@
 
       $this.keydown(function (event) {
         // enter = 13; up = 38; down = 40; esc = 27
-        var $active = $list.children('li.' + config.activeItemClass);
+        var $active = $this.activeResult();
         switch (event.which) {
         case 13:
           if (($active.length !== 0) && ($list.is(':visible'))) {
@@ -116,7 +120,7 @@
         case 38:
           event.preventDefault();
           if ($active.length === 0) {
-            $list.children('li:last-child').addClass(config.activeItemClass);
+            $this.listResults().last().addClass(config.activeItemClass);
           } else {
             $active.prev().addClass(config.activeItemClass);
             $active.removeClass(config.activeItemClass);
@@ -125,8 +129,8 @@
         case 40:
           event.preventDefault();
           if ($active.length === 0) {
-            $list.children('li:first-child').addClass(config.activeItemClass);
-          } else if ($active.is(':not(:last-child)')) {
+            $this.listResults().first().addClass(config.activeItemClass);
+          } else if ($active != $this.listResults().last()) {
             $active.next().addClass(config.activeItemClass);
             $active.removeClass(config.activeItemClass);
           }
@@ -143,9 +147,7 @@
 
       // opera wants keypress rather than keydown to prevent the form submit
       $this.keypress(function (event) {
-        var $active = $list.children('li.' + config.activeItemClass);
-
-        if ((event.which == 13) && ($list.children('li.' + config.activeItemClass).length > 0)) {
+        if ((event.which == 13) && ($this.activeResult().length > 0)) {
           event.preventDefault();
         }
       });
@@ -172,7 +174,7 @@
       });
       $this.focus(function () {
         setTimeout(function() { $this.select() }, 10);
-        if ($list.children(':not(.' + config.noResultsClass + ')').length > 0) {
+        if ($this.listResults().filter(':not(.' + config.noResultsClass + ')').length > 0) {
           $list.show();
         }
       });
