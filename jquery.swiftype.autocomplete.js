@@ -23,13 +23,17 @@
 
       var $attachEl = config.attachTo ? $(config.attachTo) : $this;
       var offset = $attachEl.offset();
-      var $list = $('<' + config.suggestionListType + ' />').addClass(config.suggestionListClass).appendTo('body').hide().css({
+      var styles = {
         'position': 'absolute',
         'z-index': 999,
-        'width': $attachEl.outerWidth() - 2,
         'top': offset.top + $attachEl.outerHeight() + 1,
         'left': offset.left
-      });
+      };
+      if (config.setWidth) {
+        styles['width'] = $attachEl.outerWidth() - 2;
+      }
+
+      var $list = $('<' + config.suggestionListType + ' />').addClass(config.suggestionListClass).appendTo('body').hide().css(styles);
       $this.data('swiftype-list', $list);
 
       $this.abortCurrent = function() {
@@ -407,6 +411,7 @@
     suggestionListType: 'ul',
     suggestionListClass: 'st-autocomplete',
     resultListSelector: 'li',
+    setWidth: true,
     typingDelay: 80
   };
 
