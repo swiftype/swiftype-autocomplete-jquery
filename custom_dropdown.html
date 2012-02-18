@@ -12,7 +12,7 @@
 
             $.each(data, function(docType, results) {
               $.each(results, function(idx, result) {
-                if (result.hightlight && result.hightlight.sections) {
+                if (result.sections && result.sections.length > 15) {
                   withSections.push(result);
                 } else {
                   noSections.push(result);
@@ -38,7 +38,7 @@
           };
 
           $('#st-search-input').swiftype({
-            engineKey: 'UuaPq4AQq23XzXzRrqq',
+            engineKey: 'V7U1B7opm5xDnVFnsk5d',
             resultRenderFunction: customResultRenderFunction,
             suggestionListType: 'div',
             resultListSelector: '.result'

@@ -59,7 +59,29 @@
       };
 
       $this.activeResult = function() {
-        return $this.listResults().filter('.' + config.activeItemClass);
+        return $this.listResults().filter('.' + config.activeItemClass).first();
+      };
+
+      $this.prevResult = function() {
+        var list = $this.listResults(),
+          currentIdx = list.index($this.activeResult()),
+          nextIdx = currentIdx - 1,
+          next = list.eq(nextIdx);
+        $this.listResults().removeClass(config.activeItemClass);
+        if (nextIdx >= 0) {
+          next.addClass(config.activeItemClass);
+        }
+      };
+
+      $this.nextResult = function() {
+        var list = $this.listResults(),
+          currentIdx = list.index($this.activeResult()),
+          nextIdx = currentIdx + 1,
+          next = list.eq(nextIdx);
+        $this.listResults().removeClass(config.activeItemClass);
+        if (nextIdx >= 0) {
+          next.addClass(config.activeItemClass);
+        }
       };
 
       $this.registerResult = function($element, data) {
@@ -122,8 +144,7 @@
           if ($active.length === 0) {
             $this.listResults().last().addClass(config.activeItemClass);
           } else {
-            $active.prev().addClass(config.activeItemClass);
-            $active.removeClass(config.activeItemClass);
+            $this.prevResult();
           }
           break;
         case 40:
@@ -131,8 +152,7 @@
           if ($active.length === 0) {
             $this.listResults().first().addClass(config.activeItemClass);
           } else if ($active != $this.listResults().last()) {
-            $active.next().addClass(config.activeItemClass);
-            $active.removeClass(config.activeItemClass);
+            $this.nextResult();
           }
           break;
         case 27:
