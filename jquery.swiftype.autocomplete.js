@@ -1,6 +1,26 @@
 (function ($) {
   var ident = 0;
 
+  window.Swiftype = window.Swiftype || {};
+  Swiftype.root_url = 'http://api.swiftype.com';
+  Swiftype.pingUrl = function(endpoint, callback) {
+    var img  = new Image();
+    img.onload = img.onerror = callback;
+    img.src = endpoint;
+    setTimeout(callback, 350);
+    return false;
+  };
+  Swiftype.pingAutoSelection = function(engineKey, entryId, value, callback) {
+    var params = {
+      t: new Date().getTime(),
+      engine_key: engineKey,
+      entry_id: entryId,
+      prefix: value
+    };
+    var url = Swiftype.root_url + '/api/v1/public/analytics/pas?' + $.param(params);
+    Swiftype.pingUrl(url, callback);
+  };
+
   $.fn.swiftype = function (options) {
     var options = $.extend({}, $.fn.swiftype.defaults, options);
 
@@ -84,11 +104,19 @@
         }
       };
 
+      $this.selectedCallback = function(data) {
+        return function() {
+          var value = $this.val(),
+            callback = function() {
+              config.onComplete(data, value);
+            };
+          Swiftype.pingAutoSelection(config.engineKey, data['id'], value, callback);
+        };
+      };
+
       $this.registerResult = function($element, data) {
         $element.data('swiftype-item', data);
-        $element.click(function () {
-          config.onComplete(data);
-        }).mouseover(function () {
+        $element.click($this.selectedCallback(data)).mouseover(function () {
           $this.listResults().removeClass(config.activeItemClass);
           $element.addClass(config.activeItemClass);
         });
@@ -131,8 +159,7 @@
         case 13:
           if (($active.length !== 0) && ($list.is(':visible'))) {
             event.preventDefault();
-            var prefix = $this.val();
-            config.onComplete($active.data('swiftype-item'), prefix);
+            $this.selectedCallback($active.data('swiftype-item'))();
           } else if ($this.currentRequest) {
             $this.submitting();
           }
@@ -230,7 +257,7 @@
       params['functional_boosts'] = config.functionalBoosts;
     }
 
-    var endpoint = 'http://api.swiftype.com/api/v1/public/engines/suggest.json';
+    var endpoint = Swiftype.root_url + '/api/v1/public/engines/suggest.json';
     $this.currentRequest = $.ajax({
       type: 'GET',
       dataType: 'jsonp',
