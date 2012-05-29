@@ -65,13 +65,13 @@ Now that you have more data for each autocomplete item, you'll want to customize
 
 The default rendering function is shown below:
 
-	var defaultRenderFunction = function(item, config) {
+	var defaultRenderFunction = function(document_type, item) {
 		return '<p class="title">' + item['title'] + '</p>';
 	};
 
 The additional fields are available as keys in the item dictionary, so you could customize this to make use of the `genre` field as follows:
 
-	var customRenderFunction = function(item, config) {
+	var customRenderFunction = function(document_type, item) {
 		var out = '<p class="title">' + item['title'] + '</p>';
 		return out.concat('<p class="genre">' + item['genre'] + '</p>');
 	};
