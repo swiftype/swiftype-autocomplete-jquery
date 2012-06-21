@@ -33,26 +33,30 @@
       $this.cache = new LRUCache(10);
       $this.emptyQueries = [];
 
+      $this.computeDropdownStyles = function() {
+        var $attachEl = config.attachTo ? $(config.attachTo) : $this;
+        var offset = $attachEl.offset();
+        var styles = {
+          'position': 'absolute',
+          'z-index': 9999,
+          'top': offset.top + $attachEl.outerHeight() + 1,
+          'left': offset.left
+        };
+        if (config.setWidth) {
+          styles['width'] = $attachEl.outerWidth() - 2;
+        }
+        return styles;
+      }
+
       $this.isEmpty = function(query) {
-	   return $.inArray(normalize(query), this.emptyQueries) >= 0
+        return $.inArray(normalize(query), this.emptyQueries) >= 0
       };
 
       $this.addEmpty = function(query) {
         $this.emptyQueries.unshift(normalize(query));
       };
 
-      var $attachEl = config.attachTo ? $(config.attachTo) : $this;
-      var offset = $attachEl.offset();
-      var styles = {
-        'position': 'absolute',
-        'z-index': 999,
-        'top': offset.top + $attachEl.outerHeight() + 1,
-        'left': offset.left
-      };
-      if (config.setWidth) {
-        styles['width'] = $attachEl.outerWidth() - 2;
-      }
-
+      var styles = $this.computeDropdownStyles();
       var $list = $('<' + config.suggestionListType + ' />').addClass(config.suggestionListClass).appendTo('body').hide().css(styles);
       $this.data('swiftype-list', $list);
 
@@ -152,7 +156,12 @@
         }
       });
 
+      $this.styleDropdown = function() {
+        $list.css($this.computeDropdownStyles());
+      };
+
       $this.keydown(function (event) {
+        $this.styleDropdown();
         // enter = 13; up = 38; down = 40; esc = 27
         var $active = $this.activeResult();
         switch (event.which) {
