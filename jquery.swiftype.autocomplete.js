@@ -250,21 +250,24 @@
     params['q'] = term;
     params['engine_key'] = config.engineKey;
 
-    if(config.searchFields !== undefined) {
-      params['search_fields'] = config.searchFields;
+    function handleFunctionParam(field) {
+      if (field !== undefined) {
+        var evald = field;
+        if (typeof evald === 'function') {
+          evald = evald.call();
+        }
+        return evald;
+      }
+      return undefined;
     }
-    if(config.fetchFields !== undefined) {
-      params['fetch_fields'] = config.fetchFields;
-    }
-    if(config.filters !== undefined) {
-      params['filters'] = config.filters;
-    }
-    if(config.documentTypes !== undefined) {
-      params['document_types'] = config.documentTypes;
-    }
-    if(config.functionalBoosts !== undefined) {
-      params['functional_boosts'] = config.functionalBoosts;
-    }
+
+    params['search_fields'] = handleFunctionParam(config.searchFields);
+    params['fetch_fields'] = handleFunctionParam(config.fetchFields);
+    params['filters'] = handleFunctionParam(config.filters);
+    params['document_types'] = handleFunctionParam(config.documentTypes);
+    params['functional_boosts'] = handleFunctionParam(config.functionalBoosts);
+    params['sort_field'] = handleFunctionParam(config.sortField);
+    params['sort_direction'] = handleFunctionParam(config.sortDirection);
 
     var endpoint = Swiftype.root_url + '/api/v1/public/engines/suggest.json';
     $this.currentRequest = $.ajax({
@@ -459,6 +462,8 @@
     engineKey: undefined,
     searchFields: undefined,
     functionalBoosts: undefined,
+    sortField: undefined,
+    sortDirection: undefined,
     fetchFields: undefined,
     noResultsClass: 'noResults',
     noResultsMessage: undefined,

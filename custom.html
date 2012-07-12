@@ -14,11 +14,13 @@
           };
 
           $('#st-search-input').swiftype({
-            engineKey: 'cZGa59zZiDxbcsZaFNAX',
+            engineKey: 'iZFpjpfr3fdLXgpn71rv',
             renderFunction: customRenderFunction,
             searchFields: {'books': ['title'], 'magazines': ['name']},
             fetchFields: {'books': ['title','author','price']},
-            filters: {'books': {'in_stock': true}}
+            filters: function() {
+              return {'books': {'in_stock': true}};
+            }
           });
         });
         </script>
