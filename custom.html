@@ -7,7 +7,7 @@
         <script type='text/javascript'>
         $(function() {
 
-          var customRenderFunction = function(item, config) {
+          var customRenderFunction = function(document_type, item) {
             var out = '<p class="title">' + item['title'] + '</p>';
             out = out.concat('<p class="url">' + item['author'] + '</p>');
             return out;
