@@ -268,6 +268,7 @@
     params['functional_boosts'] = handleFunctionParam(config.functionalBoosts);
     params['sort_field'] = handleFunctionParam(config.sortField);
     params['sort_direction'] = handleFunctionParam(config.sortDirection);
+    params['per_page'] = config.resultLimit;
 
     var endpoint = Swiftype.root_url + '/api/v1/public/engines/suggest.json';
     $this.currentRequest = $.ajax({
@@ -470,7 +471,7 @@
     onComplete: defaultOnComplete,
     resultRenderFunction: defaultResultRenderFunction,
     renderFunction: defaultRenderFunction,
-    resultLimit: 10,
+    resultLimit: undefined,
     suggestionListType: 'ul',
     suggestionListClass: 'st-autocomplete',
     resultListSelector: 'li',
