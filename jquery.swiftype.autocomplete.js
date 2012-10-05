@@ -10,11 +10,11 @@
     setTimeout(callback, 350);
     return false;
   };
-  Swiftype.pingAutoSelection = function(engineKey, entryId, value, callback) {
+  Swiftype.pingAutoSelection = function(engineKey, docId, value, callback) {
     var params = {
       t: new Date().getTime(),
       engine_key: engineKey,
-      entry_id: entryId,
+      doc_id: docId,
       prefix: value
     };
     var url = Swiftype.root_url + '/api/v1/public/analytics/pas?' + $.param(params);
