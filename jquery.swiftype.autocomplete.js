@@ -347,8 +347,12 @@
     });
   };
 
+  function htmlEscape(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
   var defaultRenderFunction = function(document_type, item) {
-    return '<p class="title">' + item['title'] + '</p>';
+    return '<p class="title">' + htmlEscape(item['title']) + '</p>';
   };
 
   var defaultOnComplete = function(item, prefix) {
