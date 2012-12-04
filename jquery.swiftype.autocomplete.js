@@ -60,7 +60,9 @@
       };
 
       $this.showList = function() {
-        $listContainer.show();
+        if (handleFunctionParam(config.disableAutocomplete) === false) {
+          $listContainer.show();
+        }
       };
 
 
@@ -251,18 +253,6 @@
 
     params['q'] = term;
     params['engine_key'] = config.engineKey;
-
-    function handleFunctionParam(field) {
-      if (field !== undefined) {
-        var evald = field;
-        if (typeof evald === 'function') {
-          evald = evald.call();
-        }
-        return evald;
-      }
-      return undefined;
-    }
-
     params['search_fields'] = handleFunctionParam(config.searchFields);
     params['fetch_fields'] = handleFunctionParam(config.fetchFields);
     params['filters'] = handleFunctionParam(config.filters);
@@ -376,6 +366,17 @@
       styles['width'] = $attachEl.outerWidth() - 2;
     }
     return styles;
+  };
+
+  var handleFunctionParam = function(field) {
+    if (field !== undefined) {
+      var evald = field;
+      if (typeof evald === 'function') {
+        evald = evald.call();
+      }
+      return evald;
+    }
+    return undefined;
   };
 
 	// simple client-side LRU Cache, based on https://github.com/rsms/js-lru
@@ -500,7 +501,8 @@
     suggestionListClass: 'autocomplete',
     resultListSelector: 'li',
     setWidth: true,
-    typingDelay: 80
+    typingDelay: 80,
+    disableAutocomplete: false
   };
 
 })(jQuery);
