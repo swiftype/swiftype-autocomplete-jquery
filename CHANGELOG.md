@@ -4,7 +4,8 @@
 
 * Make dropdown style configurable as a function.
 
-* Change the dropdown element layout and CSS to match the Swiftype embed.
+* Change the dropdown element layout and CSS to match the Swiftype embed. 
+  **NOTE:** This is a breaking change if you have CSS rules targetting the old layout.
  
 ## Version 1.0 (October 19, 2012) ##
 
