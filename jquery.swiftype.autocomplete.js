@@ -2,7 +2,7 @@
   var ident = 0;
 
   window.Swiftype = window.Swiftype || {};
-  Swiftype.root_url = 'https://api.swiftype.com';
+  Swiftype.root_url = Swiftype.root_url || 'https://api.swiftype.com';
   Swiftype.pingUrl = function(endpoint, callback) {
     var img  = new Image();
     img.onload = img.onerror = callback;
@@ -21,6 +21,10 @@
     Swiftype.pingUrl(url, callback);
   };
 
+  Swiftype.htmlEscape = Swiftype.htmlEscape || function htmlEscape(str) {
+    return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  };
+
   $.fn.swiftype = function (options) {
     var options = $.extend({}, $.fn.swiftype.defaults, options);
 
@@ -33,21 +37,6 @@
       $this.cache = new LRUCache(10);
       $this.emptyQueries = [];
 
-      $this.computeDropdownStyles = function() {
-        var $attachEl = config.attachTo ? $(config.attachTo) : $this;
-        var offset = $attachEl.offset();
-        var styles = {
-          'position': 'absolute',
-          'z-index': 9999,
-          'top': offset.top + $attachEl.outerHeight() + 1,
-          'left': offset.left
-        };
-        if (config.setWidth) {
-          styles['width'] = $attachEl.outerWidth() - 2;
-        }
-        return styles;
-      }
-
       $this.isEmpty = function(query) {
         return $.inArray(normalize(query), this.emptyQueries) >= 0
       };
@@ -56,8 +45,12 @@
         $this.emptyQueries.unshift(normalize(query));
       };
 
-      var styles = $this.computeDropdownStyles();
-      var $list = $('<' + config.suggestionListType + ' />').addClass(config.suggestionListClass).appendTo('body').hide().css(styles);
+      var styles = config.dropdownStylesFunction($this);
+      var $swiftypeWidget = $('<div class="swiftype-widget" />');
+      var $listContainer = $('<div />').addClass(config.suggestionListClass).appendTo($swiftypeWidget).css(styles).hide();
+      $swiftypeWidget.appendTo('body');
+      var $list = $('<' + config.suggestionListType + ' />').appendTo($listContainer);
+
       $this.data('swiftype-list', $list);
 
       $this.abortCurrent = function() {
@@ -66,8 +59,17 @@
         }
       };
 
-      $this.hideList = function() {
-        setTimeout(function() { $list.hide(); }, 10);
+      $this.showList = function() {
+        $listContainer.show();
+      };
+
+
+      $this.hideList = function(sync) {
+        if (sync) {
+          $listContainer.hide();
+        } else {
+          setTimeout(function() { $listContainer.hide(); }, 10);
+        }
       };
 
       $this.focused = function() {
@@ -157,7 +159,7 @@
       });
 
       $this.styleDropdown = function() {
-        $list.css($this.computeDropdownStyles());
+        $listContainer.css(config.dropdownStylesFunction($this));
       };
 
       $this.keydown(function (event) {
@@ -231,7 +233,7 @@
       $this.focus(function () {
         setTimeout(function() { $this.select() }, 10);
         if ($this.listResults().filter(':not(.' + config.noResultsClass + ')').length > 0) {
-          $list.show();
+          $this.showList();
         }
       });
     });
@@ -282,7 +284,8 @@
         $this.cache.put(norm, data.records);
       } else {
         $this.addEmpty(norm);
-        $this.data('swiftype-list').empty().hide();
+        $this.data('swiftype-list').empty();
+        $this.hideList();
         return;
       }
       processData($this, data.records, term);
@@ -292,7 +295,8 @@
   var getResults = function($this, term) {
     var norm = normalize(term);
     if ($this.isEmpty(norm)) {
-      $this.data('swiftype-list').empty().hide();
+      $this.data('swiftype-list').empty();
+      $this.hideList();
       return;
     }
     var cached = $this.cache.get(norm);
@@ -311,7 +315,8 @@
       }
       $this.lastValue = term;
       if ($.trim(term) === '') {
-        $this.data('swiftype-list').empty().hide();
+        $this.data('swiftype-list').empty()
+        $this.hideList();
         return;
       }
       if (typeof $this.data('swiftype-config').engineKey !== 'undefined') {
@@ -323,7 +328,9 @@
       var $list = $this.data('swiftype-list'),
         config = $this.data('swiftype-config');
 
-      $list.empty().hide();
+      $list.empty();
+      $this.hideList(true);
+
       config.resultRenderFunction($this.getContext(), data);
 
       var totalItems = $this.listResults().length;
@@ -331,7 +338,7 @@
         if ($this.submitted) {
           $this.submitted = false;
         } else {
-          $list.show();
+          $this.showList();
         }
       }
     };
@@ -347,16 +354,28 @@
     });
   };
 
-  function htmlEscape(str) {
-    return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-
   var defaultRenderFunction = function(document_type, item) {
-    return '<p class="title">' + htmlEscape(item['title']) + '</p>';
+    return '<p class="title">' + Swiftype.htmlEscape(item['title']) + '</p>';
   };
 
   var defaultOnComplete = function(item, prefix) {
     window.location = item['url'];
+  };
+
+  var defaultDropdownStylesFunction = function($this) {
+    var config = $this.data('swiftype-config');
+    var $attachEl = config.attachTo ? $(config.attachTo) : $this;
+    var offset = $attachEl.offset();
+    var styles = {
+      'position': 'absolute',
+      'z-index': 9999,
+      'top': offset.top + $attachEl.outerHeight() + 1,
+      'left': offset.left
+    };
+    if (config.setWidth) {
+      styles['width'] = $attachEl.outerWidth() - 2;
+    }
+    return styles;
   };
 
 	// simple client-side LRU Cache, based on https://github.com/rsms/js-lru
@@ -475,9 +494,10 @@
     onComplete: defaultOnComplete,
     resultRenderFunction: defaultResultRenderFunction,
     renderFunction: defaultRenderFunction,
+    dropdownStylesFunction: defaultDropdownStylesFunction,
     resultLimit: undefined,
     suggestionListType: 'ul',
-    suggestionListClass: 'st-autocomplete',
+    suggestionListClass: 'autocomplete',
     resultListSelector: 'li',
     setWidth: true,
     typingDelay: 80
