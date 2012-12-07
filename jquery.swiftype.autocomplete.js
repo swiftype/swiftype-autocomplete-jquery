@@ -77,7 +77,7 @@
       var $this = $(this);
       var config = $.meta ? $.extend({}, options, $this.data()) : options;
       $this.attr('autocomplete', 'off');
-      $this.data('swiftype-config', config);
+      $this.data('swiftype-config-autocomplete', config);
       $this.submitted = false;
       $this.cache = new LRUCache(10);
       $this.emptyQueries = [];
@@ -295,7 +295,7 @@
     $this.abortCurrent();
 
     var params = {},
-      config = $this.data('swiftype-config');
+      config = $this.data('swiftype-config-autocomplete');
 
     params['q'] = term;
     params['engine_key'] = config.engineKey;
@@ -355,14 +355,14 @@
         $this.hideList();
         return;
       }
-      if (typeof $this.data('swiftype-config').engineKey !== 'undefined') {
+      if (typeof $this.data('swiftype-config-autocomplete').engineKey !== 'undefined') {
         getResults($this, term);
       }
     };
 
   var processData = function ($this, data, term) {
       var $list = $this.data('swiftype-list'),
-        config = $this.data('swiftype-config');
+        config = $this.data('swiftype-config-autocomplete');
 
       $list.empty();
       $this.hideList(true);
@@ -399,7 +399,7 @@
   };
 
   var defaultDropdownStylesFunction = function($this) {
-    var config = $this.data('swiftype-config');
+    var config = $this.data('swiftype-config-autocomplete');
     var $attachEl = config.attachTo ? $(config.attachTo) : $this;
     var offset = $attachEl.offset();
     var styles = {
