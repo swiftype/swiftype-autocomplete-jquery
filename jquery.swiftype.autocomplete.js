@@ -1,4 +1,25 @@
 (function ($) {
+  var queryParser = function (a) {
+      var i, p, b = {};
+      if (a === "") {
+        return {};
+      }
+      for (i = 0; i < a.length; i += 1) {
+        p = a[i].split('=');
+        if (p.length === 2) {
+          b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+        }
+      }
+      return b;
+    };
+  $.queryParams = function () {
+    return queryParser(window.location.search.substr(1).split('&'));
+  };
+  $.hashParams = function () {
+    return queryParser(window.location.hash.substr(1).split('&'));
+  };
+
+
   var ident = 0;
 
   window.Swiftype = window.Swiftype || {};
@@ -20,12 +41,33 @@
     var url = Swiftype.root_url + '/api/v1/public/analytics/pas?' + $.param(params);
     Swiftype.pingUrl(url, callback);
   };
+  Swiftype.findSelectedSection = function() {
+    var sectionText = $.hashParams().sts;
+    if (!sectionText) { return; }
+
+    function normalizeText(str) {
+      var out = str.replace(/\s+/g, '');
+      out = out.toLowerCase();
+      return out;
+    }
+
+    sectionText = normalizeText(sectionText);
+
+    $('h1, h2, h3, h4, h5, h6').each(function(idx) {
+      $this = $(this);
+      if (normalizeText($this.text()).indexOf(sectionText) >= 0) {
+        this.scrollIntoView(true);
+        return false;
+      }
+    });
+  };
 
   Swiftype.htmlEscape = Swiftype.htmlEscape || function htmlEscape(str) {
     return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
   };
 
   $.fn.swiftype = function (options) {
+    Swiftype.findSelectedSection();
     var options = $.extend({}, $.fn.swiftype.defaults, options);
 
     return this.each(function () {
@@ -137,6 +179,7 @@
           registerResult: $this.registerResult
         };
       };
+
 
       var typingDelayPointer;
       var suppressKey = false;
