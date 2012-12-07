@@ -25,10 +25,13 @@
   window.Swiftype = window.Swiftype || {};
   Swiftype.root_url = Swiftype.root_url || 'https://api.swiftype.com';
   Swiftype.pingUrl = function(endpoint, callback) {
-    var img  = new Image();
-    img.onload = img.onerror = callback;
+    var to = setTimeout(callback, 350);
+    var img = new Image();
+    img.onload = img.onerror = function() {
+      clearTimeout(to);
+      callback();
+    };
     img.src = endpoint;
-    setTimeout(callback, 350);
     return false;
   };
   Swiftype.pingAutoSelection = function(engineKey, docId, value, callback) {
