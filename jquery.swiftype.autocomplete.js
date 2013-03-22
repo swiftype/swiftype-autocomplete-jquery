@@ -93,7 +93,7 @@
       var styles = config.dropdownStylesFunction($this);
       var $swiftypeWidget = $('<div class="swiftype-widget" />');
       var $listContainer = $('<div />').addClass(config.suggestionListClass).appendTo($swiftypeWidget).css(styles).hide();
-      $swiftypeWidget.appendTo('body');
+      $swiftypeWidget.appendTo(config.autocompleteContainingElement);
       var $list = $('<' + config.suggestionListType + ' />').appendTo($listContainer);
 
       $this.data('swiftype-list', $list);
@@ -548,7 +548,8 @@
     resultListSelector: 'li',
     setWidth: true,
     typingDelay: 80,
-    disableAutocomplete: false
+    disableAutocomplete: false,
+    autocompleteContainingElement: 'body'
   };
 
 })(jQuery);
