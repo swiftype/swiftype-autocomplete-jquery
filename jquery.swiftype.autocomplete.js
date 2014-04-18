@@ -210,6 +210,10 @@
         $listContainer.css(config.dropdownStylesFunction($this));
       };
 
+      $(window).resize(function (event) {
+        $this.styleDropdown();
+      });
+
       $this.keydown(function (event) {
         $this.styleDropdown();
         // enter = 13; up = 38; down = 40; esc = 27
