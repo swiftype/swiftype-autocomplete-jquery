@@ -91,7 +91,7 @@
       };
 
       var styles = config.dropdownStylesFunction($this);
-      var $swiftypeWidget = $('<div class="swiftype-widget" />');
+      var $swiftypeWidget = $('<div class="' + config.widgetContainerClass + '" />');
       var $listContainer = $('<div />').addClass(config.suggestionListClass).appendTo($swiftypeWidget).css(styles).hide();
       $swiftypeWidget.appendTo(config.autocompleteContainingElement);
       var $list = $('<' + config.suggestionListType + ' />').appendTo($listContainer);
@@ -553,7 +553,8 @@
     setWidth: true,
     typingDelay: 80,
     disableAutocomplete: false,
-    autocompleteContainingElement: 'body'
+    autocompleteContainingElement: 'body',
+    widgetContainerClass: 'swiftype-widget'
   };
 
 })(jQuery);
