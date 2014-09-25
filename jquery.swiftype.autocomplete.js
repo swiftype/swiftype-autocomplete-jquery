@@ -371,7 +371,7 @@
       $list.empty();
       $this.hideList(true);
 
-      config.resultRenderFunction($this.getContext(), data);
+      config.resultRenderFunction($this.getContext(), data, term);
 
       var totalItems = $this.listResults().length;
       if ((totalItems > 0 && $this.focused()) || (config.noResultsMessage !== undefined)) {
