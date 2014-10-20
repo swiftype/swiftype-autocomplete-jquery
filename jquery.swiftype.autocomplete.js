@@ -111,20 +111,15 @@
         }
       };
 
-      $this.hideListContainer = function() {
-        $listContainer.hide();
-        $(window).trigger('hide.st.autocomplete');
-      }
-
       $this.hideList = function(sync) {
-        hideListAndEmitEvent = function() {
+        hideAndEmitEvent = function() {
           $listContainer.hide();
           $(window).trigger('hide.st.autocomplete');
-        }
+        };
         if (sync) {
-          hideListAndEmitEvent();
+          hideAndEmitEvent();
         } else {
-          setTimeout(function() { hideListAndEmitEvent(); }, 10);
+          setTimeout(function() { hideAndEmitEvent(); }, 10);
         }
       };
 
