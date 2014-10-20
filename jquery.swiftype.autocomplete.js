@@ -107,15 +107,24 @@
       $this.showList = function() {
         if (handleFunctionParam(config.disableAutocomplete) === false) {
           $listContainer.show();
+          $(window).trigger('show.st.autcomplete');
         }
       };
 
+      $this.hideListContainer = function() {
+        $listContainer.hide();
+        $(window).trigger('hide.st.autocomplete');
+      }
 
       $this.hideList = function(sync) {
-        if (sync) {
+        hideListAndEmitEvent = function() {
           $listContainer.hide();
+          $(window).trigger('hide.st.autocomplete');
+        }
+        if (sync) {
+          hideListAndEmitEvent();
         } else {
-          setTimeout(function() { $listContainer.hide(); }, 10);
+          setTimeout(function() { hideListAndEmitEvent(); }, 10);
         }
       };
 
