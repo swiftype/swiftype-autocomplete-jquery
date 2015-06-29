@@ -187,7 +187,8 @@
       var typingDelayPointer;
       var suppressKey = false;
       $this.lastValue = '';
-      $this.keyup(function (event) {
+      // The "off" below clears multiple handlers.
+      $this.off('keyup').keyup(function (event) {
         if (suppressKey) {
           suppressKey = false;
           return;
