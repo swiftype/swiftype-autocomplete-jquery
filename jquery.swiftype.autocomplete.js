@@ -107,15 +107,19 @@
       $this.showList = function() {
         if (handleFunctionParam(config.disableAutocomplete) === false) {
           $listContainer.show();
+          $(window).trigger('show.st.autcomplete');
         }
       };
 
-
       $this.hideList = function(sync) {
-        if (sync) {
+        hideAndEmitEvent = function() {
           $listContainer.hide();
+          $(window).trigger('hide.st.autocomplete');
+        };
+        if (sync) {
+          hideAndEmitEvent();
         } else {
-          setTimeout(function() { $listContainer.hide(); }, 10);
+          setTimeout(function() { hideAndEmitEvent(); }, 10);
         }
       };
 
@@ -371,7 +375,7 @@
       $list.empty();
       $this.hideList(true);
 
-      config.resultRenderFunction($this.getContext(), data);
+      config.resultRenderFunction($this.getContext(), data, term);
 
       var totalItems = $this.listResults().length;
       if ((totalItems > 0 && $this.focused()) || (config.noResultsMessage !== undefined)) {
