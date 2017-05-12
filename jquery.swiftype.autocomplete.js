@@ -311,6 +311,7 @@
     params['sort_field'] = handleFunctionParam(config.sortField);
     params['sort_direction'] = handleFunctionParam(config.sortDirection);
     params['per_page'] = config.resultLimit;
+    params['highlight_fields'] = config.highlightFields;
 
     var endpoint = Swiftype.root_url + '/api/v1/public/engines/suggest.json';
     $this.currentRequest = $.ajax({
@@ -540,6 +541,7 @@
     sortField: undefined,
     sortDirection: undefined,
     fetchFields: undefined,
+    highlightFields: undefined,
     noResultsClass: 'noResults',
     noResultsMessage: undefined,
     onComplete: defaultOnComplete,
