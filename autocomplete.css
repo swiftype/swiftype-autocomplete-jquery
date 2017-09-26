@@ -136,3 +136,7 @@ form input.st-search-input {
   color: #a9d7f1;
   font-style: normal;
 }
+
+.swiftype-widget .autocomplete li.noResults {
+  pointer-events: none;
+}
