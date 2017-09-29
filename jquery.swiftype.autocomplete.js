@@ -110,12 +110,21 @@
         }
       };
 
-
       $this.hideList = function(sync) {
         if (sync) {
           $listContainer.hide();
         } else {
           setTimeout(function() { $listContainer.hide(); }, 10);
+        }
+      };
+
+      $this.showNoResults = function () {
+        $list.empty();
+        if (config.noResultsMessage === undefined) {
+          $this.hideList();
+        } else {
+          $list.append($('<li />', { 'class': config.noResultsClass }).text(config.noResultsMessage));
+          $this.showList();
         }
       };
 
@@ -128,7 +137,7 @@
       };
 
       $this.listResults = function() {
-        return $(config.resultListSelector, $list);
+        return $(config.resultListSelector, $list).filter(':not(.' + config.noResultsClass + ')');
       };
 
       $this.activeResult = function() {
@@ -284,7 +293,7 @@
       });
       $this.focus(function () {
         setTimeout(function() { $this.select() }, 10);
-        if ($this.listResults().filter(':not(.' + config.noResultsClass + ')').length > 0) {
+        if ($this.listResults().length > 0) {
           $this.showList();
         }
       });
@@ -325,8 +334,7 @@
         $this.cache.put(norm, data.records);
       } else {
         $this.addEmpty(norm);
-        $this.data('swiftype-list').empty();
-        $this.hideList();
+        $this.showNoResults();
         return;
       }
       processData($this, data.records, term);
@@ -336,8 +344,7 @@
   var getResults = function($this, term) {
     var norm = normalize(term);
     if ($this.isEmpty(norm)) {
-      $this.data('swiftype-list').empty();
-      $this.hideList();
+      $this.showNoResults();
       return;
     }
     var cached = $this.cache.get(norm);
