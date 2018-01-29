@@ -196,7 +196,7 @@
       var typingDelayPointer;
       var suppressKey = false;
       $this.lastValue = '';
-      $this.keyup(function (event) {
+      $this.on('keyup', function (event) {
         if (suppressKey) {
           suppressKey = false;
           return;
@@ -219,11 +219,11 @@
         $listContainer.css(config.dropdownStylesFunction($this));
       };
 
-      $(window).resize(function (event) {
+      $(window).on('resize', function (event) {
         $this.styleDropdown();
       });
 
-      $this.keydown(function (event) {
+      $this.on('keydown', function (event) {
         $this.styleDropdown();
         // enter = 13; up = 38; down = 40; esc = 27
         var $active = $this.activeResult();
@@ -265,7 +265,7 @@
       });
 
       // opera wants keypress rather than keydown to prevent the form submit
-      $this.keypress(function (event) {
+      $this.on('keypress', function (event) {
         if ((event.which == 13) && ($this.activeResult().length > 0)) {
           event.preventDefault();
         }
@@ -274,25 +274,25 @@
       // stupid hack to get around loss of focus on mousedown
       var mouseDown = false;
       var blurWait = false;
-      $(document).bind('mousedown.swiftype' + ++ident, function () {
+      $(document).on('mousedown.swiftype' + ++ident, function () {
         mouseDown = true;
       });
-      $(document).bind('mouseup.swiftype' + ident, function () {
+      $(document).on('mouseup.swiftype' + ident, function () {
         mouseDown = false;
         if (blurWait) {
           blurWait = false;
           $this.hideList();
         }
       });
-      $this.blur(function () {
+      $this.on('blur', function () {
         if (mouseDown) {
           blurWait = true;
         } else {
           $this.hideList();
         }
       });
-      $this.focus(function () {
-        setTimeout(function() { $this.select() }, 10);
+      $this.on('focus', function () {
+        setTimeout(function() { $this.trigger('select') }, 10);
         if ($this.listResults().length > 0) {
           $this.showList();
         }
