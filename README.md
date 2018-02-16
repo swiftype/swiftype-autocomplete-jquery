@@ -3,7 +3,7 @@ jQuery Autocomplete Plugin for Swiftype Site Search
 
 The official [Swiftype Site Search](https://www.swiftype.com/site-search) jQuery plugin for adding autocomplete functionality to a search input field, backed by data from the Swiftype Site Search API. Learn more about Swiftype Site Search by visiting [swiftype.com](http://www.swiftype.com) and creating an account.
 
-> **Note:** This client has been developed for [Swiftype's Site Search](https://www.swiftype.com/site-search) API endpoints only. You may refer to the [Swiftype Site Search API Documentation](https://swiftype.com/documentation/site-search/overview) for additional context.
+> **Note:** This client has been developed for the [Swiftype Site Search](https://www.swiftype.com/site-search) API endpoints only. You may refer to the [Swiftype Site Search API Documentation](https://swiftype.com/documentation/site-search/overview) for additional context.
 
 Prerequisites
 ------------
