@@ -16,11 +16,7 @@
           $('#st-search-input').swiftype({
             engineKey: 'iZFpjpfr3fdLXgpn71rv',
             renderFunction: customRenderFunction,
-            highlightFields: {
-              {
-                'books': {'title': {'size': 60, 'fallback': true}, 'author': {'size': 30, 'fallback': true}
-              }
-            },
+            highlightFields: {{'books': {'title': {'size': 60, 'fallback': true}, 'author': {'size': 30, 'fallback': true}}},
             searchFields: {'books': ['title'], 'magazines': ['name']},
             fetchFields: {'books': ['price']},
             filters: function() {
