@@ -8,16 +8,21 @@
         $(function() {
 
           var customRenderFunction = function(document_type, item) {
-            var out = '<p class="title">' + item['title'] + '</p>';
-            out = out.concat('<p class="url">' + item['author'] + '</p>');
+            var out = '<p class="title">' + item.highlight['title'] + '</p>';
+            out = out.concat('<p class="url">' + item.highlight['author'] + '</p>');
             return out;
           };
 
           $('#st-search-input').swiftype({
             engineKey: 'iZFpjpfr3fdLXgpn71rv',
             renderFunction: customRenderFunction,
+            highlightFields: {
+              {
+                'books': {'title': {'size': 60, 'fallback': true}, 'author': {'size': 30, 'fallback': true}
+              }
+            },
             searchFields: {'books': ['title'], 'magazines': ['name']},
-            fetchFields: {'books': ['title','author','price']},
+            fetchFields: {'books': ['price']},
             filters: function() {
               return {'books': {'in_stock': true}};
             }
@@ -32,5 +37,3 @@
         </form>
     </body>
 </html>
-
-
