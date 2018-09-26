@@ -77,13 +77,13 @@ Now that you have more data for each autocomplete item, you'll want to customize
 The default rendering function is shown below:
 
 	var defaultRenderFunction = function(document_type, item) {
-		return '<p class="title">' + item.highlight['title'] + '</p>';
-	};
+	    return '<p class="title">' + Swiftype.htmlEscape(item['title']) + '</p>';
+	  };
 
 The additional fields are available as keys in the item dictionary, so you could customize this to make use of the `genre` field as follows:
 
 	var customRenderFunction = function(document_type, item) {
-	  var out = '<a href="' + item['url'] + '" class="st-search-result-link">' + item.highlight['title'] + '</a>';
+	  var out = '<a href="' + Swiftype.htmlEscape(item['url']) + '" class="st-search-result-link">' + item.highlight['title'] + '</a>';
 	  return out.concat('<p class="genre">' + item.highlight['genre'] + '</p>');
 	};
 
