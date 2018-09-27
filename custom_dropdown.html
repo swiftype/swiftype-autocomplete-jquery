@@ -24,10 +24,10 @@
               noSectionsList = $('<ul class="no_sections"></ul>');
 
             $.each(withSections, function(idx, item) {
-              ctx.registerResult($('<li class="result"><p>' + item['title'] + '</p></li>').appendTo(withSectionsList), item);
+              ctx.registerResult($('<li class="result"><p>' + item.highlight['title'] + '</p></li>').appendTo(withSectionsList), item);
             });
             $.each(noSections, function(idx, item) {
-              ctx.registerResult($('<li class="result"><p>' + item['title'] + '</p></li>').appendTo(noSectionsList), item);
+              ctx.registerResult($('<li class="result"><p>' + item.highlight['title'] + '</p></li>').appendTo(noSectionsList), item);
             });
             if (withSections.length > 0) {
               withSectionsList.appendTo(ctx.list);
@@ -38,11 +38,12 @@
           };
 
           $('#st-search-input').swiftype({
-            engineKey: 'V7U1B7opm5xDnVFnsk5d',
+            engineKey: '5jZG1gmmCTFYbSSDjpqq',
             resultRenderFunction: customResultRenderFunction,
             suggestionListType: 'div',
             resultListSelector: '.result',
-            fetchFields: {page: ['url', 'title']}
+            highlightFields: {'page': {'title': {'size': 100, 'fallback': true }}},
+            fetchFields: {page: ['url']}
           });
         });
         </script>

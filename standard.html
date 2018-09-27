@@ -7,8 +7,9 @@
         <script type='text/javascript'>
         $(function() {
           $('#st-search-input').swiftype({
-            searchFields: {'page': ['title']},
-            engineKey: 'hGbFw82z3WdSMZ9q764B'
+            highlightFields: {'page': {'title': {'size': 100, 'fallback': true }}},
+            fetchFields: {page: ['url']},
+            engineKey: '5jZG1gmmCTFYbSSDjpqq'
           });
         });
         </script>
