@@ -122,8 +122,33 @@ Now let's say you only want your autocomplete to display books that are of the *
 		searchFields: {'books': ['title']},
 		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
 	});
+	
+#### Changing what happens when an item is selected in the dropdown
 
+In order to change what happens when clicking on an item, you need to provide an `onComplete` handler function.
 
+By default, clicking on an item in the dropdown will execute the following `onComplete` handler, which routes a user to the `url` property of the selected item:
+
+```javascript
+var defaultOnComplete = function(item, prefix) {
+  window.location = item['url'];
+};
+```
+
+To change this, simply provide a new handler function in the `onComplete` option when initializing your autocomplete.
+
+Here is an example that updates the input value with the selected item's title:
+
+```javascript
+var input; // Save a reference to the autocomplete dropdown
+input = $('#st-search-input').swiftype({ 
+	onComplete: function(selectedItem) {
+          input.val(selectedItem['title']); // Update the autocomplete dropdown's value
+        },
+	fetchFields: {'books': ['title']},
+	engineKey: 'jaDGyzkR6iYHkfNsPpNK'
+});
+```
 
 Questions?
 ----------
