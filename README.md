@@ -46,7 +46,7 @@ Be sure to change the `engineKey` attribute shown above to match the one assigne
 
 This simple installation will by default match the string a user is typing into your search input to any of the items indexed in your search engine. By default, the string is matched against any fields you have indexed with type `string`.
 
-## Customization Tutorial
+## Customization tutorial
 
 This plugin is written to be flexible based on your specific use-case.
 For example you might want to retrieve more data for each element in the dropdown, customize
