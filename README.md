@@ -32,7 +32,7 @@ All together it should look like this:
 	<script type="text/javascript" src="jquery.swiftype.autocomplete.js"></script>
 	<link type="text/css" rel="stylesheet" href="autocomplete.css" media="all" />
 
-	> **Note:** This client has been developed for the [Elastic Site Search](https://www.swiftype.com/site-search) API endpoints only. You may refer to the [Elastic Site Search API Documentation](https://swiftype.com/documentation/site-search/overview) for additional context.
+> **Note:** This client has been developed for the [Elastic Site Search](https://www.swiftype.com/site-search) API endpoints only. You may refer to the [Elastic Site Search API Documentation](https://swiftype.com/documentation/site-search/overview) for additional context.
 
 ## Usage
 
