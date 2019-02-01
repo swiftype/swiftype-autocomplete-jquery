@@ -6,6 +6,7 @@
 
 + [Getting started](#getting-started-)
 + [Usage](#usage)
++ [Customization Tutorial](#customization-tutorial)
 + [FAQ](#faq-)
 + [Contribute](#contribute-)
 + [License](#license-)
@@ -33,7 +34,6 @@ All together it should look like this:
 
 	> **Note:** This client has been developed for the [Elastic Site Search](https://www.swiftype.com/site-search) API endpoints only. You may refer to the [Elastic Site Search API Documentation](https://swiftype.com/documentation/site-search/overview) for additional context.
 
-
 ## Usage
 
 Simply apply the swiftype method to an existing search input field on your webpage. For example, add it to a search input field with id `st-search-input` as follows:
@@ -47,7 +47,6 @@ Be sure to change the `engineKey` attribute shown above to match the one assigne
 This simple installation will by default match the string a user is typing into your search input to any of the items indexed in your search engine. By default, the string is matched against any fields you have indexed with type `string`.
 
 ## Customization Tutorial
-
 
 This plugin is written to be flexible based on your specific use-case.
 For example you might want to retrieve more data for each element in the dropdown, customize
