@@ -15,10 +15,10 @@
 
 ## Getting started 🐣
 
-Requires:
+Requirements:
 
-1. A Swiftype account. Sign up at [swiftype.com](http://www.swiftype.com).
-2. A Swiftype Site Search engine with some data in it.
+1. Site Search account. Sign up at [swiftype.com](https://app.swiftype.com/signup).
+2. Site Search engine with some data in it.
 
 Include the following in the header of your webpage:
 
