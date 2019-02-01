@@ -1,4 +1,4 @@
-<p align="center"><img src="https://github.com/swiftype/swiftype-search-jquery/blob/master/logo-app-search.png?raw=true" alt="Elastic Site Search Logo"></p>
+<p align="center"><img src="https://github.com/swiftype/swiftype-autocomplete-jquery/blob/master/logo-app-search.png?raw=true" alt="Elastic Site Search Logo"></p>
 
 > A first-party [Elastic Site Search](https://swiftype.com/documentation/site-search/overview) jQuery plugin for search autocomplete.
 
@@ -158,7 +158,7 @@ input = $('#st-search-input').swiftype({
 
 ### Where do I report issues with the client?
 
-If something is not working as expected, please open an [issue](https://github.com/swiftype/swiftype-search-jquery/issues/new).
+If something is not working as expected, please open an [issue](https://github.com/swiftype/swiftype-autocomplete-jquery/issues/new).
 
 ### Where can I learn more about App Search?
 
@@ -172,11 +172,11 @@ You can checkout the [Elastic Site Search community discuss forums](https://disc
 
 We welcome contributors to the project. Before you begin, a couple notes...
 
-+ Before opening a pull request, please create an issue to [discuss the scope of your proposal](https://github.com/swiftype/swiftype-search-jquery/issues).
++ Before opening a pull request, please create an issue to [discuss the scope of your proposal](https://github.com/swiftype/swiftype-autocomplete-jquery/issues).
 + Please write simple code and concise documentation, when appropriate.
 
 ## License 📗
 
-[MIT](https://github.com/swiftype/swiftype-search-jquery/blob/master/LICENSE) © [Elastic](https://github.com/elastic)
+[MIT](https://github.com/swiftype/swiftype-autocomplete-jquery/blob/master/LICENSE) © [Elastic](https://github.com/elastic)
 
-Thank you to all the [contributors](https://github.com/swiftype/swiftype-search-jquery/graphs/contributors)!
+Thank you to all the [contributors](https://github.com/swiftype/swiftype-autocomplete-jquery/graphs/contributors)!
