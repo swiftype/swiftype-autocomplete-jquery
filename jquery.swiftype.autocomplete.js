@@ -397,12 +397,12 @@
 
     $.each(results, function(document_type, items) {
       $.each(items, function(idx, item) {
-        ctx.registerResult($('<li>' + config.renderFunction(document_type, item) + '</li>').appendTo($list), item);
+        ctx.registerResult($('<li>' + config.renderFunction(document_type, item, idx) + '</li>').appendTo($list), item);
       });
     });
   };
 
-  var defaultRenderFunction = function(document_type, item) {
+  var defaultRenderFunction = function(document_type, item, idx) {
     return '<p class="title">' + Swiftype.htmlEscape(item['title']) + '</p>';
   };
 
