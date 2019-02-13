@@ -28,9 +28,11 @@ Include the following in the header of your webpage:
 
 All together it should look like this:
 
-	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-	<script type="text/javascript" src="jquery.swiftype.autocomplete.js"></script>
-	<link type="text/css" rel="stylesheet" href="autocomplete.css" media="all" />
+```html
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script type="text/javascript" src="jquery.swiftype.autocomplete.js"></script>
+<link type="text/css" rel="stylesheet" href="autocomplete.css" media="all" />
+```
 
 > **Note:** This client has been developed for the [Elastic Site Search](https://www.swiftype.com/site-search) API endpoints only. You may refer to the [Elastic Site Search API Documentation](https://swiftype.com/documentation/site-search/overview) for additional context.
 
@@ -38,9 +40,11 @@ All together it should look like this:
 
 Simply apply the swiftype method to an existing search input field on your webpage. For example, add it to a search input field with id `st-search-input` as follows:
 
-	$('#st-search-input').swiftype({
-	  engineKey: 'jaDGyzkR6iYHkfNsPpNK'
-	});
+```javascript
+$('#st-search-input').swiftype({
+  engineKey: 'jaDGyzkR6iYHkfNsPpNK'
+});
+```
 
 Be sure to change the `engineKey` attribute shown above to match the one assigned to your Swiftype search engine. If you are using the web interface, the search engine key is listed on the first page of your dashboard.
 
@@ -58,19 +62,23 @@ Let's go through an example that does all of this. For this example, let's assum
 
 To specify the number of results you would like returned from the API, set the `resultLimit` attribute as follows:
 
-	$('#st-search-input').swiftype({
-		engineKey: 'jaDGyzkR6iYHkfNsPpNK',
-		resultLimit: 20
-	});
+```javascript
+$('#st-search-input').swiftype({
+  engineKey: 'jaDGyzkR6iYHkfNsPpNK',
+  resultLimit: 20
+});
+```
 
 ### Fetching only the fields you specify
 
 To specify the fields you would like returned from the API, set the `fetchFields` attribute to a hash containing an array listing the fields you want returned for each document type. For example, if you have indexed `title`, `genre`, and `published_on` fields for each document, you can have them returned as follows:
 
-	$('#st-search-input').swiftype({
-		fetchFields: {'books': ['title','genre','published_on']},
-		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
-	});
+```javascript
+$('#st-search-input').swiftype({
+  fetchFields: { 'books': ['title', 'genre', 'published_on'] },
+  engineKey: 'jaDGyzkR6iYHkfNsPpNK'
+});
+```
 
 These additional fields will be returned with each item in the autocomplete, and they can be accessed in the rendering function as shown in the next section.
 
@@ -80,37 +88,44 @@ Now that you have more data for each autocomplete item, you'll want to customize
 
 The default rendering function is shown below:
 
-	var defaultRenderFunction = function(document_type, item) {
-	    return '<p class="title">' + Swiftype.htmlEscape(item['title']) + '</p>';
-	  };
+```javascript
+var defaultRenderFunction = function(document_type, item) {
+  return '<p class="title">' + Swiftype.htmlEscape(item['title']) + '</p>';
+};
+```
 
 The additional fields are available as keys in the item dictionary, so you could customize this to make use of the `genre` field as follows:
 
-	var customRenderFunction = function(document_type, item) {
-	  var out = '<a href="' + Swiftype.htmlEscape(item['url']) + '" class="st-search-result-link">' + item.highlight['title'] + '</a>';
-	  return out.concat('<p class="genre">' + item.highlight['genre'] + '</p>');
-	};
+```javascript
+var customRenderFunction = function(document_type, item) {
+  var out = '<a href="' + Swiftype.htmlEscape(item['url']) + '" class="st-search-result-link">' + item.highlight['title'] + '</a>';
+  return out.concat('<p class="genre">' + item.highlight['genre'] + '</p>');
+};
+```
 
 Now simply set the `renderFunction` attribute in the options dictionary to your `customRenderFunction` to tell our plugin to use your function to render results:
 
-	$('#st-search-input').swiftype({
-		renderFunction: customRenderFunction,
-		fetchFields: {'books': ['url']}, // Fetch the URL field as a raw field.
-		highlightFields: {'books': {'title': {'size': 60, 'fallback': true}, 'genre': {'size': 60, 'fallback': true }, 'published_on': {'size': 15, 'fallback':true}}}
-		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
-	});
-
+```javascript
+$('#st-search-input').swiftype({
+  renderFunction: customRenderFunction,
+  fetchFields: { 'books': ['url'] }, // Fetch the URL field as a raw field.
+  highlightFields: { 'books': { 'title': { 'size': 60, 'fallback': true }, 'genre': { 'size': 60, 'fallback': true }, 'published_on': { 'size': 15, 'fallback':true } } },
+  engineKey: 'jaDGyzkR6iYHkfNsPpNK'
+});
+```
 
 #### Restricting matching to particular fields
 
 By default, the Swiftype autocomplete library will match the string the user is typing to any `string` field indexed for your documents. So if you would like to ensure that it only matches entries in the `title` field, for example, you can specify the `searchFields` option:
 
-	$('#st-search-input').swiftype({
-		renderFunction: customRenderFunction,
-		fetchFields: {'books': ['title','genre','published_on']},
-		searchFields: {'books': ['title']},
-		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
-	});
+```javascript
+$('#st-search-input').swiftype({
+  renderFunction: customRenderFunction,
+  fetchFields: { 'books': ['title', 'genre', 'published_on'] },
+  searchFields: { 'books': ['title'] },
+  engineKey: 'jaDGyzkR6iYHkfNsPpNK'
+});
+```
 
 Similarly to the `fetchFields` option, `searchFields` accepts a hash containing an array of fields for each document_type on which you would like the user's query to match.
 
@@ -118,14 +133,15 @@ Similarly to the `fetchFields` option, `searchFields` accepts a hash containing 
 
 Now let's say you only want your autocomplete to display books that are of the **fiction** `genre` and are **in_stock**. In order to restrict search results, you can pass additional query conditions to the search API by specifying them as a dictionary in the `filters` field. Multiple clauses in the filters field are combined with AND logic:
 
-
-	$('#st-search-input').swiftype({
-		renderFunction: customRenderFunction,
-		fetchFields: {'books': ['title','genre','published_on']},
-		filters: {'books': {'genre': 'fiction', 'in_stock': true}},
-		searchFields: {'books': ['title']},
-		engineKey: 'jaDGyzkR6iYHkfNsPpNK'
-	});
+```javascript
+$('#st-search-input').swiftype({
+  renderFunction: customRenderFunction,
+  fetchFields: { 'books': ['title', 'genre', 'published_on'] },
+  filters: { 'books': { 'genre': 'fiction', 'in_stock': true } },
+  searchFields: { 'books': ['title'] },
+  engineKey: 'jaDGyzkR6iYHkfNsPpNK'
+});
+```
 
 ### Changing what happens when an item is selected in the dropdown
 
@@ -146,11 +162,11 @@ Here is an example that updates the input value with the selected item's title:
 ```javascript
 var input; // Save a reference to the autocomplete dropdown
 input = $('#st-search-input').swiftype({
-	onComplete: function(selectedItem) {
-          input.val(selectedItem['title']); // Update the autocomplete dropdown's value
-        },
-	fetchFields: {'books': ['title']},
-	engineKey: 'jaDGyzkR6iYHkfNsPpNK'
+  onComplete: function(selectedItem) {
+    input.val(selectedItem['title']); // Update the autocomplete dropdown's value
+  },
+  fetchFields: { 'books': ['title'] },
+  engineKey: 'jaDGyzkR6iYHkfNsPpNK'
 });
 ```
 
