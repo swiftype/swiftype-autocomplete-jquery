@@ -172,6 +172,10 @@ input = $('#st-search-input').swiftype({
 
 ## FAQ 🔮
 
+### Can I use this with the Swiftype Search Plugin?
+
+Yes! If you are looking for core search functionality, checkout out the [Swiftype Search Plugin](https://github.com/swiftype/swiftype-search-jquery).
+
 ### Where do I report issues with the client?
 
 If something is not working as expected, please open an [issue](https://github.com/swiftype/swiftype-autocomplete-jquery/issues/new).
