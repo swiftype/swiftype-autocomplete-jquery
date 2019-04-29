@@ -23,7 +23,7 @@
   var ident = 0;
 
   window.Swiftype = window.Swiftype || {};
-  Swiftype.root_url = Swiftype.root_url || 'https://api.swiftype.com';
+  Swiftype.root_url = Swiftype.root_url || 'https://search-api.swiftype.com';
   Swiftype.pingUrl = function(endpoint, callback) {
     var to = setTimeout(callback, 350);
     var img = new Image();
@@ -322,7 +322,7 @@
     params['per_page'] = config.resultLimit;
     params['highlight_fields'] = config.highlightFields;
 
-    var endpoint = Swiftype.root_url + '/api/v1/public/engines/suggest.json';
+    var endpoint = Swiftype.root_url + '/api/v1/public/installs/' + params['engine_key'] + '/suggest.json';
     $this.currentRequest = $.ajax({
       type: 'GET',
       dataType: 'jsonp',
