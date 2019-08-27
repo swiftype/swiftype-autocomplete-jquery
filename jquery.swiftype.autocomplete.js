@@ -322,12 +322,18 @@
     params['per_page'] = config.resultLimit;
     params['highlight_fields'] = config.highlightFields;
 
+    for (var prop in params) {
+        if (params.hasOwnProperty(prop) && params[prop] === undefined) {
+            delete params[prop];
+        }
+    }
+
     var endpoint = Swiftype.root_url + '/api/v1/public/engines/suggest.json';
     $this.currentRequest = $.ajax({
       type: 'GET',
       dataType: 'jsonp',
       url: endpoint,
-      data: params
+      data: $.param(params, false)
     }).done(function(data) {
       var norm = normalize(term);
       if (data.record_count > 0) {
