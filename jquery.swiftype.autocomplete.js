@@ -192,6 +192,13 @@
         };
       };
 
+      Swiftype.resetAutocompleteCache = function () {
+        if ($this.cache) {
+          $this.cache = new LRUCache(10);
+          $this.lastValue = null;
+          processInput($this);
+        }
+      }
 
       var typingDelayPointer;
       var suppressKey = false;
