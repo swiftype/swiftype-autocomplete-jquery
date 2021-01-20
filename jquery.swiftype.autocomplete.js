@@ -108,6 +108,9 @@
         if (handleFunctionParam(config.disableAutocomplete) === false) {
           $listContainer.show();
         }
+        if (config.onLoaded) {
+          config.onLoaded();
+        }
       };
 
       $this.hideList = function(sync) {
@@ -347,6 +350,10 @@
       $this.showNoResults();
       return;
     }
+    var config = $this.data('swiftype-config-autocomplete');
+    if (config.onLoading) {
+        config.onLoading();
+    }  
     var cached = $this.cache.get(norm);
     if (cached) {
       processData($this, cached, term);
@@ -409,7 +416,8 @@
   var defaultOnComplete = function(item, prefix) {
     window.location = item['url'];
   };
-
+  var defaultOnLoading = function () { };
+  var defaultOnLoaded = function () { };
   var defaultDropdownStylesFunction = function($this) {
     var config = $this.data('swiftype-config-autocomplete');
     var $attachEl = config.attachTo ? $(config.attachTo) : $this;
@@ -552,6 +560,8 @@
     noResultsClass: 'noResults',
     noResultsMessage: undefined,
     onComplete: defaultOnComplete,
+    onLoading: defaultOnLoading,
+    onLoaded: defaultOnLoaded,
     resultRenderFunction: defaultResultRenderFunction,
     renderFunction: defaultRenderFunction,
     dropdownStylesFunction: defaultDropdownStylesFunction,
