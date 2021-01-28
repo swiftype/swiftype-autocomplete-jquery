@@ -108,13 +108,24 @@
         if (handleFunctionParam(config.disableAutocomplete) === false) {
           $listContainer.show();
         }
+        if (config.onShow) {
+          config.onShow();
+        }
       };
 
       $this.hideList = function(sync) {
         if (sync) {
           $listContainer.hide();
+          if(config.onHide) {
+            config.onHide();
+	  }
         } else {
-          setTimeout(function() { $listContainer.hide(); }, 10);
+          setTimeout(function() { 
+            $listContainer.hide(); 
+            if(config.onHide) {
+              config.onHide();
+	    }
+	  }, 10);
         }
       };
 
@@ -181,6 +192,10 @@
         $element.click($this.selectedCallback(data)).mouseover(function () {
           $this.listResults().removeClass(config.activeItemClass);
           $element.addClass(config.activeItemClass);
+        }).mouseout(function () {
+          if (!config.persistentActiveItem) {
+            $this.listResults().removeClass(config.activeItemClass);
+          }
         });
       };
 
@@ -329,6 +344,9 @@
       url: endpoint,
       data: params
     }).done(function(data) {
+      if(config.onLoaded) {
+        config.onLoaded();
+      }
       var norm = normalize(term);
       if (data.record_count > 0) {
         $this.cache.put(norm, data.records);
@@ -347,6 +365,10 @@
       $this.showNoResults();
       return;
     }
+    var config = $this.data('swiftype-config-autocomplete');
+    if (config.onLoading) {
+        config.onLoading();
+    }  
     var cached = $this.cache.get(norm);
     if (cached) {
       processData($this, cached, term);
@@ -409,7 +431,10 @@
   var defaultOnComplete = function(item, prefix) {
     window.location = item['url'];
   };
-
+  var defaultOnLoading = function () { };
+  var defaultOnLoaded = function () { };
+  var defaultOnShow = function () { };
+  var defaultOnHide = function () { };
   var defaultDropdownStylesFunction = function($this) {
     var config = $this.data('swiftype-config-autocomplete');
     var $attachEl = config.attachTo ? $(config.attachTo) : $this;
@@ -539,6 +564,7 @@
 
   $.fn.swiftype.defaults = {
     activeItemClass: 'active',
+    persistentActiveItem: true,
     attachTo: undefined,
     documentTypes: undefined,
     filters: undefined,
@@ -552,6 +578,10 @@
     noResultsClass: 'noResults',
     noResultsMessage: undefined,
     onComplete: defaultOnComplete,
+    onLoading: defaultOnLoading,
+    onLoaded: defaultOnLoaded,
+    onShow: defaultOnShow,
+    onHide: defaultOnHide,
     resultRenderFunction: defaultResultRenderFunction,
     renderFunction: defaultRenderFunction,
     dropdownStylesFunction: defaultDropdownStylesFunction,
