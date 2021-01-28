@@ -192,6 +192,10 @@
         $element.click($this.selectedCallback(data)).mouseover(function () {
           $this.listResults().removeClass(config.activeItemClass);
           $element.addClass(config.activeItemClass);
+        }).mouseout(function () {
+          if (!config.persistentActiveItem) {
+            $this.listResults().removeClass(config.activeItemClass);
+          }
         });
       };
 
@@ -560,6 +564,7 @@
 
   $.fn.swiftype.defaults = {
     activeItemClass: 'active',
+    persistentActiveItem: true,
     attachTo: undefined,
     documentTypes: undefined,
     filters: undefined,
