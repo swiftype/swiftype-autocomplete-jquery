@@ -108,13 +108,24 @@
         if (handleFunctionParam(config.disableAutocomplete) === false) {
           $listContainer.show();
         }
+        if (config.onShow) {
+          config.onShow();
+        }
       };
 
       $this.hideList = function(sync) {
         if (sync) {
           $listContainer.hide();
+          if(config.onHide) {
+            config.onHide();
+	  }
         } else {
-          setTimeout(function() { $listContainer.hide(); }, 10);
+          setTimeout(function() { 
+            $listContainer.hide(); 
+            if(config.onHide) {
+              config.onHide();
+	    }
+	  }, 10);
         }
       };
 
@@ -329,6 +340,9 @@
       url: endpoint,
       data: params
     }).done(function(data) {
+      if(config.onLoaded) {
+        config.onLoaded(data);
+      }
       var norm = normalize(term);
       if (data.record_count > 0) {
         $this.cache.put(norm, data.records);
@@ -347,6 +361,10 @@
       $this.showNoResults();
       return;
     }
+    var config = $this.data('swiftype-config-autocomplete');
+    if (config.onLoading) {
+        config.onLoading();
+    }  
     var cached = $this.cache.get(norm);
     if (cached) {
       processData($this, cached, term);
@@ -409,7 +427,10 @@
   var defaultOnComplete = function(item, prefix) {
     window.location = item['url'];
   };
-
+  var defaultOnLoading = function () { };
+  var defaultOnLoaded = function () { };
+  var defaultOnShow = function () { };
+  var defaultOnHide = function () { };
   var defaultDropdownStylesFunction = function($this) {
     var config = $this.data('swiftype-config-autocomplete');
     var $attachEl = config.attachTo ? $(config.attachTo) : $this;
@@ -552,6 +573,10 @@
     noResultsClass: 'noResults',
     noResultsMessage: undefined,
     onComplete: defaultOnComplete,
+    onLoading: defaultOnLoading,
+    onLoaded: defaultOnLoaded,
+    onShow: defaultOnShow,
+    onHide: defaultOnHide,
     resultRenderFunction: defaultResultRenderFunction,
     renderFunction: defaultRenderFunction,
     dropdownStylesFunction: defaultDropdownStylesFunction,
