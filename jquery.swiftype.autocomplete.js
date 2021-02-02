@@ -341,7 +341,7 @@
       data: params
     }).done(function(data) {
       if(config.onLoaded) {
-        config.onLoaded();
+        config.onLoaded(data);
       }
       var norm = normalize(term);
       if (data.record_count > 0) {
